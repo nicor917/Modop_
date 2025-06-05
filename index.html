@@ -244,21 +244,9 @@
           const index = card.getAttribute("data-index");
           const item = data[range][index];
 
-if (!item.video || item.video.trim() === "") {
-  videoPlayer.parentElement.innerHTML = `
-    <img src="HMTL_JS/img/attente.png" alt="Vidéo en attente" class="img-fluid w-100" id="video-placeholder">
-  `;
-} else {
-  videoPlayer.parentElement.innerHTML = `
-    <video id="video-player" controls class="w-100 h-100">
-      <source src="${item.video}" type="video/mp4">
-      Votre navigateur ne supporte pas la balise vidéo.
-    </video>
-  `;
-  const newPlayer = document.getElementById("video-player");
-  newPlayer.play();
-}
-
+          videoSource.src = item.video;
+          videoPlayer.load();
+          videoPlayer.play();
 
           etapesContainer.innerHTML = "";
           item.steps.forEach((step, idx) => {
