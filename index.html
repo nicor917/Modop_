@@ -133,107 +133,94 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    const data = {
-      "BT-RANGE": [
-        {
-          title: "BT6L",
-          text: "Remontage",
-          img: "HMTL_JS/img/bt/BT7-04b.png",
-          video: "attente.mp4",
-          steps: [
-            { label: "Fixer la base", time: 5 },
-            { label: "Aligner les composants", time: 15 },
-            { label: "Serrer les vis", time: 30 }
-          ]
-        },
-        {
-          title: "BT6",
-          text: "Démontage",
-          img: "HMTL_JS/img/bt/btlogic.png",
-          video: "attente.mp4",
-          steps: [
-            { label: "Dévisser la base", time: 3 },
-            { label: "Retirer les composants", time: 18 },
-            { label: "Stocker les pièces", time: 32 }
-          ]
-        }
-      ],
-      "ST-RANGE": [
-        {
-          title: "ST14K3",
-          text: "Démontage",
-          img: "HMTL_JS/img/st/st14k3.jpg",
-          video:"Demontage_ST14K3.mp4",
-          steps: [
-            { label: "Préparation de démontage des éléments externes", time: 10 },
-            { label: "Déconnexion des composants internes", time: 134 },
-            { label: "Démontage mécanique du carter", time: 185 },
-            { label: "Retirer et rebuter la vis prise de mouvement et la clavette", time: 270 }
-          ]
-        },
-        {
-          title: "ST14K3",
-          text: "Remontage",
-          img: "HMTL_JS/img/st/st14k3.jpg",
-          video: "https://bernardcontrolsservices.sharepoint.com/sites/BCAcademy/Shared%20Documents/999%20-%20Back%20Up%20Nicolas%20Rannou/Vidéos/ST-RANGE/ST14K3/Remontage_ST14K3.mp4",
-          steps: [
-            { label: "Assemblage des organes de transmission", time: 14 },
-            { label: "Remontage du carter et de l'étanchéité", time: 122 },
-            { label: "Remontage de la platine et des pignons", time: 210 },
-            { label: "Finalisation et verification", time: 350 }
-          ]
-        }
-      ],
-       "L-RANGE": [
-        {
-          title: "ST14K3",
-          text: "Démontage",
-          img: "HMTL_JS/img/st/st14k3.jpg",
-          video:"Demontage_ST14K3.mp4",
-          steps: [
-            { label: "Préparation de démontage des éléments externes", time: 10 },
-            { label: "Déconnexion des composants internes", time: 134 },
-            { label: "Démontage mécanique du carter", time: 185 },
-            { label: "Retirer et rebuter la vis prise de mouvement et la clavette", time: 270 }
-          ]
-        },
-        {
-          title: "ST14K3",
-          text: "Remontage",
-          img: "HMTL_JS/img/st/st14k3.jpg",
-          video: "https://bernardcontrolsservices.sharepoint.com/sites/BCAcademy/Shared%20Documents/999%20-%20Back%20Up%20Nicolas%20Rannou/Vidéos/ST-RANGE/ST14K3/Remontage_ST14K3.mp4",
-          steps: [
-            { label: "Assemblage des organes de transmission", time: 14 },
-            { label: "Remontage du carter et de l'étanchéité", time: 122 },
-            { label: "Remontage de la platine et des pignons", time: 210 },
-            { label: "Finalisation et verification", time: 350 }
-          ]
-        }
-      ],
-      "AQ-RANGE": [
-        {
-          title: "AQ 3",
-          text: "Démontage",
-          img: "HMTL_JS/img/aq/aq3.png",
-          video: "attente.mp4",
-          steps: [
-            { label: "Vérifier les connexions", time: 4 },
-            { label: "Contrôler la tension", time: 20 }
-          ]
-        },
-        {
-          title: "AQ 10",
-          text: "Démontage",
-          img: "HMTL_JS/img/aq/aq10.png",
-          video: "attente.mp4",
-          steps: [
-            { label: "Vérifier les connexions", time: 4 },
-            { label: "Contrôler la tension", time: 20 }
-          ]
-        }
+   const data = {
+  "BT-RANGE": [
+    {
+      title: "BT6L",
+      text: "Remontage",
+      img: "HMTL_JS/img/bt/BT7-04b.png",
+      video: "attente.mp4",
+      steps: [
+        { label: "Fixer la base", time: 5 },
+        { label: "Aligner les composants", time: 15 },
+        { label: "Serrer les vis", time: 30 }
       ]
-      
-    };
+    },
+    {
+      title: "BT6",
+      text: "Démontage",
+      img: "HMTL_JS/img/bt/btlogic.png",
+      video: "attente.mp4",
+      steps: [
+        { label: "Dévisser la base", time: 3 },
+        { label: "Retirer les composants", time: 18 },
+        { label: "Stocker les pièces", time: 32 }
+      ]
+    }
+  ],
+  "ST-RANGE": [
+    {
+      title: "ST14K3",
+      text: "Démontage",
+      img: "HMTL_JS/img/st/st14k3.jpg",
+      video: "Demontage_ST14K3.mp4",
+      steps: [
+        { label: "Préparation de démontage des éléments externes", time: 10 },
+        { label: "Déconnexion des composants internes", time: 134 },
+        { label: "Démontage mécanique du carter", time: 185 },
+        { label: "Retirer et rebuter la vis prise de mouvement et la clavette", time: 270 }
+      ]
+    },
+    {
+      title: "ST14K3",
+      text: "Remontage",
+      img: "HMTL_JS/img/st/st14k3.jpg",
+      video: "https://bernardcontrolsservices.sharepoint.com/sites/BCAcademy/Shared%20Documents/999%20-%20Back%20Up%20Nicolas%20Rannou/Vidéos/ST-RANGE/ST14K3/Remontage_ST14K3.mp4",
+      steps: [
+        { label: "Assemblage des organes de transmission", time: 14 },
+        { label: "Remontage du carter et de l'étanchéité", time: 122 },
+        { label: "Remontage de la platine et des pignons", time: 210 },
+        { label: "Finalisation et verification", time: 350 }
+      ]
+    }
+  ],
+  "L-RANGE": [
+    {
+      title: "100L",
+      text: "Démontage",
+      img: "HMTL_JS/img/l/100l.jpg",
+      video: "Demontage_100L.mp4",
+      steps: [
+        { label: "Dépose du capot supérieur", time: 10 },
+        { label: "Retrait de l'entraînement principal", time: 80 },
+        { label: "Nettoyage des pièces", time: 160 }
+      ]
+    }
+  ],
+  "AQ-RANGE": [
+    {
+      title: "AQ 3",
+      text: "Démontage",
+      img: "HMTL_JS/img/aq/aq3.png",
+      video: "attente.mp4",
+      steps: [
+        { label: "Vérifier les connexions", time: 4 },
+        { label: "Contrôler la tension", time: 20 }
+      ]
+    },
+    {
+      title: "AQ 10",
+      text: "Démontage",
+      img: "HMTL_JS/img/aq/aq10.png",
+      video: "attente.mp4",
+      steps: [
+        { label: "Vérifier les connexions", time: 4 },
+        { label: "Contrôler la tension", time: 20 }
+      ]
+    }
+  ]
+};
+
 
     const dropdownItems = document.querySelectorAll(".dropdown-item");
     const dropdownButton = document.getElementById("dropdownButton");
