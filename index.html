@@ -2,133 +2,262 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vidéo avec image d'attente</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Les Modes Opératoires</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .servo.selected {
-      border: 2px solid #0d6efd;
+    html { font-size: 24px; }
+    .left-half {
+      background-color: #001f48;
+      color: white;
+      padding: 1rem;
+      height: 100%;
+      max-height: 95vh;
+      overflow-y: auto;
     }
-    .etapes.active-step {
-      background-color: #0d6efd;
+    .top-label {
+      background-color: #496791;
+      margin: 0;
+      padding: 4px 8px;
+      display: inline-block;
+    }
+    .custom-dropdown-btn { background-color: #006fa5; color: white; }
+    .custom-dropdown-menu { background-color: #0686c7; color: white; }
+    .custom-dropdown-menu .dropdown-item { color: white; }
+    .servo {
+      background-color: #1E3459;
+      color: white;
+      cursor: pointer;
+    }
+    .icon { width: 80px; }
+    .partie { width: 55px; padding: 0%; }
+    .card-horizontal { display: flex; align-items: center; }
+    .card-horizontal .icon { margin-right: 1rem; }
+    .list-group-item.servo {
+      background-color: #1E3459;
+      border: 1px solid #496791;
       color: white;
     }
-    .partie {
-      width: 24px;
-      height: 24px;
+    .badge { font-size: 0.85em; padding: 0.4em 0.7em; }
+    @media (max-width: 768px) {
+      .card-horizontal { flex-direction: column; text-align: center; }
+      .card-horizontal .icon { margin: 0 auto 1rem; }
+    }
+    .card-horizontal:hover { background-color: #0686c7; }
+    .etapes {
+      background-color: #1E3459;
+      color: white;
+      cursor: pointer;
+    }
+    .etapes:hover {
+      background-color: #0686c7;
+      color: white;
+    }
+    .row { height: 90vh; }
+    .container-fluid { min-height: 100vh; }
+    .servo.selected {
+      border-left: 5px solid #ffffff;
+      background-color: #124a70;
+    }
+    .etapes.active-step {
+      background-color: #124a70;
+      border-left: 5px solid #ffffff;
+    }
+    .step-card {
+      background-color: #1E3459;
+      color: white;
+      overflow-y: auto;
+      max-height: 32vh;
+      transition: all 0.3s ease;
+    }
+    .footer-logo {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      text-align: center;
+    }
+    .footer-logo img {
+      max-height: 60px;
+      max-width: 30vw;
+      opacity: 0.9;
+    }
+    @media (max-width: 500px) {
+      .footer-logo { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="container mt-4">
-
-    <div class="row mb-3">
-      <div class="col-4">
-        <div id="cards-container" class="d-flex flex-wrap gap-2">
-          <!-- Les cartes seront injectées ici -->
+  <div class="container-fluid m-3">
+    <div class="row">
+      <div class="col-12 col-md-6 left-half d-flex flex-column">
+        <p class="top-label">Les Modes Opératoires</p>
+        <div class="dropdown mt-3 w-100">
+          <button id="dropdownButton" class="btn custom-dropdown-btn dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            RANGE
+          </button>
+          <ul class="dropdown-menu custom-dropdown-menu w-100">
+            <li><a class="dropdown-item" href="#">BT-RANGE</a></li>
+            <li><a class="dropdown-item" href="#">ST-RANGE</a></li>
+            <li><a class="dropdown-item" href="#">AQ-RANGE</a></li>
+          </ul>
         </div>
+        <div id="card-container"></div>
       </div>
-      <div class="col-8">
-        <div class="ratio ratio-16x9 position-relative">
-          <video id="video-player" controls style="width: 100%; height: 100%;">
-            <source id="video-source" src="" type="video/mp4" />
-            Votre navigateur ne supporte pas la balise vidéo.
-          </video>
-          <img
-            id="video-placeholder"
-            src="attente.png"
-            alt="Attente"
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; display: none;"
-          />
+      <div class="col-12 col-md-6">
+        <div class="container mt-2" id="fullscreen-container">
+          <div class="ratio ratio-16x9">
+            <video id="video-player" controls>
+              <source id="video-source" src="" type="video/mp4">
+              Votre navigateur ne supporte pas la balise vidéo.
+            </video>
+          </div>
+          <div class="card m-3 step-card">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="card-title mb-0">
+                  <img class="icon" src="HMTL_JS/icons/footstep.png" alt="Étapes">
+                  Les Étapes de Réalisations
+                </h5>
+                <button id="fullscreen-btn" class="btn btn-outline-light btn-sm ms-3">Plein écran</button>
+              </div>
+              <div class="list-group" id="etapes-container"></div>
+            </div>
+          </div>
         </div>
-        <div id="etapes-container" class="list-group mt-3"></div>
       </div>
     </div>
-
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
     const data = {
-      "range1": [
+      "BT-RANGE": [
         {
-          video: "video1.mp4",
+          title: "BT6L",
+          text: "Remontage",
+          img: "HMTL_JS/img/bt/BT7-04b.png",
+          video: "../Média/Tuto/Remontage_BT6L.mp4",
           steps: [
-            { label: "Début", time: 0 },
-            { label: "Milieu", time: 10 },
-            { label: "Fin", time: 20 },
-          ],
+            { label: "Fixer la base", time: 5 },
+            { label: "Aligner les composants", time: 15 },
+            { label: "Serrer les vis", time: 30 }
+          ]
         },
         {
-          video: "", // Pas de vidéo, on doit afficher l'image attente.png
+          title: "BT6",
+          text: "Démontage",
+          img: "HMTL_JS/img/bt/btlogic.png",
+          video: "../Média/Tuto/Demontage_BT6.mp4",
           steps: [
-            { label: "Etape 1", time: 0 },
-            { label: "Etape 2", time: 5 },
-          ],
-        },
-        {
-          video: "attente.png", // Même comportement : on affiche l'image attente
-          steps: [],
-        },
+            { label: "Dévisser la base", time: 3 },
+            { label: "Retirer les composants", time: 18 },
+            { label: "Stocker les pièces", time: 32 }
+          ]
+        }
       ],
+      "ST-RANGE": [
+        {
+          title: "ST14K3",
+          text: "Démontage",
+          img: "HMTL_JS/img/st/st14k3.jpg",
+          video:"Demontage_ST14K3.mp4",
+          steps: [
+            { label: "Préparation de démontage des éléments externes", time: 10 },
+            { label: "Déconnexion des composants internes", time: 134 },
+            { label: "Démontage mécanique du carter", time: 185 },
+            { label: "Retirer et rebuter la vis prise de mouvement et la clavette", time: 270 }
+          ]
+        },
+        {
+          title: "ST14K3",
+          text: "Remontage",
+          img: "HMTL_JS/img/st/st14k3.jpg",
+          video: "https://bernardcontrolsservices.sharepoint.com/sites/BCAcademy/Shared%20Documents/999%20-%20Back%20Up%20Nicolas%20Rannou/Vidéos/ST-RANGE/ST14K3/Remontage_ST14K3.mp4",
+          steps: [
+            { label: "Assemblage des organes de transmission", time: 14 },
+            { label: "Remontage du carter et de l'étanchéité", time: 122 },
+            { label: "Remontage de la platine et des pignons", time: 210 },
+            { label: "Finalisation et verification", time: 350 }
+          ]
+        }
+      ],
+      "AQ-RANGE": [
+        {
+          title: "AQ 3",
+          text: "Démontage",
+          img: "HMTL_JS/img/aq/aq3.png",
+          video: "attente.png",
+          steps: [
+            { label: "Vérifier les connexions", time: 4 },
+            { label: "Contrôler la tension", time: 20 }
+          ]
+        },
+        {
+          title: "AQ 10",
+          text: "Démontage",
+          img: "HMTL_JS/img/aq/aq10.png",
+          video: "../Média/Tuto/Controle_AQ22.mp4",
+          steps: [
+            { label: "Vérifier les connexions", time: 4 },
+            { label: "Contrôler la tension", time: 20 }
+          ]
+        }
+      ]
     };
 
-    const range = "range1";
-
-    const cardsContainer = document.getElementById("cards-container");
+    const dropdownItems = document.querySelectorAll(".dropdown-item");
+    const dropdownButton = document.getElementById("dropdownButton");
+    const container = document.getElementById("card-container");
+    const etapesContainer = document.getElementById("etapes-container");
     const videoPlayer = document.getElementById("video-player");
     const videoSource = document.getElementById("video-source");
-    const etapesContainer = document.getElementById("etapes-container");
-    const videoPlaceholder = document.getElementById("video-placeholder");
+    const fullscreenBtn = document.getElementById("fullscreen-btn");
+    const fullscreenContainer = document.getElementById("fullscreen-container");
 
-    // Création des cartes pour chaque item
-    function createCards() {
-      data[range].forEach((item, index) => {
-        const card = document.createElement("div");
-        card.className = "servo p-3 border rounded";
-        card.style.cursor = "pointer";
-        card.setAttribute("data-index", index);
-        card.textContent = item.video ? item.video : "Image attente";
-        cardsContainer.appendChild(card);
+    function updateCards(range) {
+      container.innerHTML = "";
+      data[range]?.forEach((card, index) => {
+        const cardHTML = `
+          <div class="card m-3 servo" data-index="${index}" data-range="${range}">
+            <div class="card-body card-horizontal">
+              <img class="icon" src="${card.img}" alt="${card.title}">
+              <div>
+                <h5 class="card-title m-1">${card.title}</h5>
+                <p class="card-text mb-0">${card.text}</p>
+              </div>
+            </div>
+          </div>`;
+        container.insertAdjacentHTML("beforeend", cardHTML);
       });
+      attachCardEvents(range);
     }
 
-    // Gestion des clics sur les cartes
-    function attachCardEvents() {
-      const cards = document.querySelectorAll(".servo");
-      cards.forEach((card) => {
+    function attachCardEvents(range) {
+      document.querySelectorAll(".servo").forEach(card => {
         card.addEventListener("click", () => {
-          // Désélectionner toutes les cartes
-          cards.forEach((c) => c.classList.remove("selected"));
+          document.querySelectorAll(".servo").forEach(c => c.classList.remove("selected"));
           card.classList.add("selected");
 
           const index = card.getAttribute("data-index");
           const item = data[range][index];
 
-          if (!item.video || item.video.trim() === "" || item.video.trim() === "attente.png") {
-            // Pas de vidéo, on cache la vidéo et on affiche l'image attente
-            videoPlayer.style.display = "none";
-            videoPlaceholder.style.display = "block";
-          } else {
-            // On affiche la vidéo, on cache l'image attente
-            videoPlayer.style.display = "block";
-            videoPlaceholder.style.display = "none";
+          videoSource.src = item.video;
+          videoPlayer.load();
+          videoPlayer.play();
 
-            videoSource.src = item.video;
-            videoPlayer.load();
-            videoPlayer.play();
-          }
-
-          // Affichage des étapes
           etapesContainer.innerHTML = "";
           item.steps.forEach((step, idx) => {
             const stepElement = document.createElement("div");
             stepElement.className = "list-group-item etapes d-flex justify-content-between align-items-center py-2 mb-2";
             stepElement.innerHTML = `
-              <span><img class="partie" src="HMTL_JS/icons/${idx + 1}.png" alt="Icon ${idx + 1}"></span>
-              <span class="badge bg-secondary">${step.label}</span>
+              <span><img class="partie" src="HMTL_JS/icons/${idx + 1}.png"></span>
+              <span class="badge">${step.label}</span>
             `;
             stepElement.addEventListener("click", () => {
-              document.querySelectorAll(".etapes").forEach((el) => el.classList.remove("active-step"));
+              document.querySelectorAll(".etapes").forEach(el => el.classList.remove("active-step"));
               stepElement.classList.add("active-step");
               videoPlayer.currentTime = step.time;
               videoPlayer.play();
@@ -139,12 +268,59 @@
       });
     }
 
-    // Initialisation
-    createCards();
-    attachCardEvents();
+    dropdownItems.forEach(item => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+        const selected = item.textContent.trim();
+        dropdownButton.textContent = selected;
+        updateCards(selected);
+      });
+    });
 
-    // Optionnel : sélectionner la première carte par défaut
-    document.querySelector(".servo").click();
+    fullscreenBtn.addEventListener("click", () => {
+      if (fullscreenContainer.requestFullscreen) {
+        fullscreenContainer.requestFullscreen();
+      } else if (fullscreenContainer.webkitRequestFullscreen) {
+        fullscreenContainer.webkitRequestFullscreen();
+      } else if (fullscreenContainer.mozRequestFullScreen) {
+        fullscreenContainer.mozRequestFullScreen();
+      } else if (fullscreenContainer.msRequestFullscreen) {
+        fullscreenContainer.msRequestFullscreen();
+      }
+    });
+
+    function isFullscreen() {
+      return document.fullscreenElement === fullscreenContainer
+        || document.webkitFullscreenElement === fullscreenContainer
+        || document.mozFullScreenElement === fullscreenContainer
+        || document.msFullscreenElement === fullscreenContainer;
+    }
+
+    function toggleStepCardFullscreen() {
+      const stepCard = document.querySelector('.step-card');
+      const paused = videoPlayer.paused;
+      if (isFullscreen() && paused) {
+        stepCard.style.position = 'absolute';
+        stepCard.style.bottom = '10px';
+        stepCard.style.left = '10px';
+        stepCard.style.right = '10px';
+        stepCard.style.maxHeight = '40vh';
+        stepCard.style.backgroundColor = 'rgba(30, 52, 89, 0.85)';
+        stepCard.style.zIndex = '9999';
+      } else {
+        stepCard.style = '';
+      }
+    }
+
+    videoPlayer.addEventListener('pause', toggleStepCardFullscreen);
+    videoPlayer.addEventListener('play', toggleStepCardFullscreen);
+    document.addEventListener('fullscreenchange', toggleStepCardFullscreen);
+
+    toggleStepCardFullscreen();
   </script>
+
+  <div class="footer-logo">
+    <img src="HMTL_JS/icons/logo_bc.png" alt="Logo" />
+  </div>
 </body>
 </html>
