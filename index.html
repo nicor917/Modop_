@@ -86,6 +86,12 @@
     @media (max-width: 500px) {
       .footer-logo { display: none; }
     }
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background-color: #1E3459;
+    }
   </style>
 </head>
 <body>
@@ -216,6 +222,13 @@
     const videoSource = document.getElementById("video-source");
     const fullscreenBtn = document.getElementById("fullscreen-btn");
     const fullscreenContainer = document.getElementById("fullscreen-container");
+    const videoContainer = document.querySelector('.ratio.ratio-16x9');
+
+    // Créer l'élément image de remplacement
+    const imgPlaceholder = document.createElement('img');
+    imgPlaceholder.className = 'img-placeholder';
+    imgPlaceholder.style.display = 'none';
+    videoContainer.appendChild(imgPlaceholder);
 
     function updateCards(range) {
       container.innerHTML = "";
@@ -244,10 +257,22 @@
           const index = card.getAttribute("data-index");
           const item = data[range][index];
 
-          videoSource.src = item.video;
-          videoPlayer.load();
-          videoPlayer.play();
+          // Gestion de l'affichage vidéo/image
+          if (item.video && item.video.trim() !== '') {
+            // Afficher la vidéo si disponible
+            videoSource.src = item.video;
+            videoPlayer.style.display = 'block';
+            imgPlaceholder.style.display = 'none';
+            videoPlayer.load();
+            videoPlayer.play();
+          } else {
+            // Afficher l'image si pas de vidéo
+            videoPlayer.style.display = 'none';
+            imgPlaceholder.style.display = 'block';
+            imgPlaceholder.src = item.img;
+          }
 
+          // Mise à jour des étapes
           etapesContainer.innerHTML = "";
           item.steps.forEach((step, idx) => {
             const stepElement = document.createElement("div");
@@ -256,12 +281,17 @@
               <span><img class="partie" src="HMTL_JS/icons/${idx + 1}.png"></span>
               <span class="badge">${step.label}</span>
             `;
-            stepElement.addEventListener("click", () => {
-              document.querySelectorAll(".etapes").forEach(el => el.classList.remove("active-step"));
-              stepElement.classList.add("active-step");
-              videoPlayer.currentTime = step.time;
-              videoPlayer.play();
-            });
+            
+            // Activation des étapes seulement si vidéo disponible
+            if (item.video && item.video.trim() !== '') {
+              stepElement.addEventListener("click", () => {
+                document.querySelectorAll(".etapes").forEach(el => el.classList.remove("active-step"));
+                stepElement.classList.add("active-step");
+                videoPlayer.currentTime = step.time;
+                videoPlayer.play();
+              });
+            }
+            
             etapesContainer.appendChild(stepElement);
           });
         });
@@ -316,7 +346,12 @@
     videoPlayer.addEventListener('play', toggleStepCardFullscreen);
     document.addEventListener('fullscreenchange', toggleStepCardFullscreen);
 
-    toggleStepCardFullscreen();
+    // Initialisation au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+      dropdownButton.textContent = "BT-RANGE";
+      updateCards("BT-RANGE");
+      toggleStepCardFullscreen();
+    });
   </script>
 
   <div class="footer-logo">
