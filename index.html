@@ -271,4 +271,56 @@
     dropdownItems.forEach(item => {
       item.addEventListener("click", (e) => {
         e.preventDefault();
-        const selected =
+        const selected = item.textContent.trim();
+        dropdownButton.textContent = selected;
+        updateCards(selected);
+      });
+    });
+
+    fullscreenBtn.addEventListener("click", () => {
+      if (fullscreenContainer.requestFullscreen) {
+        fullscreenContainer.requestFullscreen();
+      } else if (fullscreenContainer.webkitRequestFullscreen) {
+        fullscreenContainer.webkitRequestFullscreen();
+      } else if (fullscreenContainer.mozRequestFullScreen) {
+        fullscreenContainer.mozRequestFullScreen();
+      } else if (fullscreenContainer.msRequestFullscreen) {
+        fullscreenContainer.msRequestFullscreen();
+      }
+    });
+
+    function isFullscreen() {
+      return document.fullscreenElement === fullscreenContainer
+        || document.webkitFullscreenElement === fullscreenContainer
+        || document.mozFullScreenElement === fullscreenContainer
+        || document.msFullscreenElement === fullscreenContainer;
+    }
+
+    function toggleStepCardFullscreen() {
+      const stepCard = document.querySelector('.step-card');
+      const paused = videoPlayer.paused;
+      if (isFullscreen() && paused) {
+        stepCard.style.position = 'absolute';
+        stepCard.style.bottom = '10px';
+        stepCard.style.left = '10px';
+        stepCard.style.right = '10px';
+        stepCard.style.maxHeight = '40vh';
+        stepCard.style.backgroundColor = 'rgba(30, 52, 89, 0.85)';
+        stepCard.style.zIndex = '9999';
+      } else {
+        stepCard.style = '';
+      }
+    }
+
+    videoPlayer.addEventListener('pause', toggleStepCardFullscreen);
+    videoPlayer.addEventListener('play', toggleStepCardFullscreen);
+    document.addEventListener('fullscreenchange', toggleStepCardFullscreen);
+
+    toggleStepCardFullscreen();
+  </script>
+
+  <div class="footer-logo">
+    <img src="HMTL_JS/icons/logo_bc.png" alt="Logo" />
+  </div>
+</body>
+</html>
