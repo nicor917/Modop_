@@ -261,7 +261,7 @@ const isVideo = item.video && item.video.trim() !== "" && item.video.trim().toLo
 
 if (!isVideo) {
   videoContainer.style.display = "none";
-  imgFallback.src = "HMTL_JS/img/fallback.jpg"; // image commune si pas de vidéo
+  imgFallback.src = "attente.png"; // image commune si pas de vidéo
   imgFallback.style.display = "block";
 } else {
   videoSource.src = item.video;
