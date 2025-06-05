@@ -257,9 +257,11 @@ if (!imgFallback) {
   videoContainer.parentNode.insertBefore(imgFallback, videoContainer.nextSibling);
 }
 
-if (!item.video || item.video.trim() === "") {
+const isVideo = item.video && item.video.trim() !== "" && item.video.trim().toLowerCase().endsWith(".mp4");
+
+if (!isVideo) {
   videoContainer.style.display = "none";
-  imgFallback.src = item.img;
+  imgFallback.src = "HMTL_JS/img/fallback.jpg"; // image commune si pas de vidéo
   imgFallback.style.display = "block";
 } else {
   videoSource.src = item.video;
@@ -267,6 +269,7 @@ if (!item.video || item.video.trim() === "") {
   videoPlayer.play();
   videoContainer.style.display = "block";
   imgFallback.style.display = "none";
+}
 }
 
 
