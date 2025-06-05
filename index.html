@@ -235,38 +235,61 @@
       attachCardEvents(range);
     }
 
-    function attachCardEvents(range) {
-      document.querySelectorAll(".servo").forEach(card => {
-        card.addEventListener("click", () => {
-          document.querySelectorAll(".servo").forEach(c => c.classList.remove("selected"));
-          card.classList.add("selected");
+function attachCardEvents(range) {
+  document.querySelectorAll(".servo").forEach(card => {
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".servo").forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
 
-          const index = card.getAttribute("data-index");
-          const item = data[range][index];
+      const index = card.getAttribute("data-index");
+      const item = data[range][index];
 
-          videoSource.src = item.video;
-          videoPlayer.load();
+const videoContainer = document.querySelector(".ratio");
+
+let imgFallback = document.getElementById("fallback-image");
+
+if (!imgFallback) {
+  imgFallback = document.createElement("img");
+  imgFallback.id = "fallback-image";
+  imgFallback.className = "img-fluid w-100 h-100";
+  imgFallback.style.objectFit = "cover";
+  imgFallback.style.display = "none";
+  videoContainer.parentNode.insertBefore(imgFallback, videoContainer.nextSibling);
+}
+
+if (!item.video || item.video.trim() === "") {
+  videoContainer.style.display = "none";
+  imgFallback.src = item.img;
+  imgFallback.style.display = "block";
+} else {
+  videoSource.src = item.video;
+  videoPlayer.load();
+  videoPlayer.play();
+  videoContainer.style.display = "block";
+  imgFallback.style.display = "none";
+}
+
+
+      etapesContainer.innerHTML = "";
+      item.steps.forEach((step, idx) => {
+        const stepElement = document.createElement("div");
+        stepElement.className = "list-group-item etapes d-flex justify-content-between align-items-center py-2 mb-2";
+        stepElement.innerHTML = `
+          <span><img class="partie" src="HMTL_JS/icons/${idx + 1}.png"></span>
+          <span class="badge">${step.label}</span>
+        `;
+        stepElement.addEventListener("click", () => {
+          document.querySelectorAll(".etapes").forEach(el => el.classList.remove("active-step"));
+          stepElement.classList.add("active-step");
+          videoPlayer.currentTime = step.time;
           videoPlayer.play();
-
-          etapesContainer.innerHTML = "";
-          item.steps.forEach((step, idx) => {
-            const stepElement = document.createElement("div");
-            stepElement.className = "list-group-item etapes d-flex justify-content-between align-items-center py-2 mb-2";
-            stepElement.innerHTML = `
-              <span><img class="partie" src="HMTL_JS/icons/${idx + 1}.png"></span>
-              <span class="badge">${step.label}</span>
-            `;
-            stepElement.addEventListener("click", () => {
-              document.querySelectorAll(".etapes").forEach(el => el.classList.remove("active-step"));
-              stepElement.classList.add("active-step");
-              videoPlayer.currentTime = step.time;
-              videoPlayer.play();
-            });
-            etapesContainer.appendChild(stepElement);
-          });
         });
+        etapesContainer.appendChild(stepElement);
       });
-    }
+    });
+  });
+}
+
 
     dropdownItems.forEach(item => {
       item.addEventListener("click", (e) => {
