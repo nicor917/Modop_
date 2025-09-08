@@ -230,6 +230,14 @@
         margin-right: 0.5rem;
       }
     }
+    
+    /* Message d'instruction */
+    .instruction-message {
+      text-align: center;
+      padding: 2rem;
+      color: #8ba3c7;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -239,7 +247,7 @@
         <p class="top-label">Les Modes Opératoires</p>
         <div class="dropdown mt-3 w-100">
           <button id="dropdownButton" class="btn custom-dropdown-btn dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            RANGE
+            Sélectionnez une range
           </button>
           <ul class="dropdown-menu custom-dropdown-menu w-100">
             <li><a class="dropdown-item" href="#">BT-RANGE</a></li>
@@ -248,7 +256,11 @@
             <li><a class="dropdown-item" href="#">L-RANGE</a></li>
           </ul>
         </div>
-        <div id="card-container" class="mt-3"></div>
+        <div id="card-container" class="mt-3">
+          <div class="instruction-message">
+            Veuillez sélectionner une range pour afficher les servomoteurs disponibles.
+          </div>
+        </div>
       </div>
       <div class="col-12 col-md-6">
         <div class="container mt-2 mt-md-0 p-0 p-md-2" id="fullscreen-container">
@@ -308,6 +320,12 @@
     const fullscreenContainer = document.getElementById("fullscreen-container");
 
     function updateCards(range) {
+      // Supprimer le message d'instruction
+      const instructionMessage = document.querySelector('.instruction-message');
+      if (instructionMessage) {
+        instructionMessage.remove();
+      }
+      
       container.innerHTML = "";
       data[range]?.forEach((card, index) => {
         const cardHTML = `
@@ -407,14 +425,10 @@
     videoPlayer.addEventListener('pause', toggleStepCardFullscreen);
     videoPlayer.addEventListener('play', toggleStepCardFullscreen);
     document.addEventListener('fullscreenchange', toggleStepCardFullscreen);
-
-    // Initialiser avec la première option
-    updateCards("BT-RANGE");
   </script>
 
   <div class="footer-logo">
-    <img src="HMTL_JS/icons/BC_HOIZON_BLANC.png" alt="Logo" />
+    <img src="HMTL_JS/icons/BC_HORIZON-BLANC.png" alt="Logo" />
   </div>
 </body>
 </html>
-
