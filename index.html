@@ -7,16 +7,28 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
   <style> 
     body {
-         overflow-x: hidden; 
+      overflow-x: hidden; 
     }
-    html { font-size: 24px; }
+    html { 
+      font-size: 16px; 
+    }
+    @media (min-width: 768px) {
+      html { 
+        font-size: 20px; 
+      }
+    }
+    @media (min-width: 1200px) {
+      html { 
+        font-size: 24px; 
+      }
+    }
     .left-half {
       background-color: #001f48;
       color: white;
       padding: 1rem;
-      height: 100%;
-      max-height: 95vh;
-      overflow-y: none;
+      min-height: 100vh;
+      height: auto;
+      overflow-y: auto;
     }
     .top-label {
       background-color: #496791;
@@ -24,29 +36,78 @@
       padding: 4px 8px;
       display: inline-block;
     }
-    .custom-dropdown-btn { background-color: #006fa5; color: white; }
-    .custom-dropdown-menu { background-color: #0686c7; color: white; }
-    .custom-dropdown-menu .dropdown-item { color: white; }
+    .custom-dropdown-btn { 
+      background-color: #006fa5; 
+      color: white; 
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .custom-dropdown-menu { 
+      background-color: #0686c7; 
+      color: white; 
+    }
+    .custom-dropdown-menu .dropdown-item { 
+      color: white; 
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .custom-dropdown-menu .dropdown-item:hover {
+      background-color: #006fa5;
+    }
     .servo {
       background-color: #1E3459;
       color: white;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
-    .icon { width: 80px; }
-    .partie { width: 55px; padding: 0%; }
-    .card-horizontal { display: flex; align-items: center; }
-    .card-horizontal .icon { margin-right: 1rem; }
+    .icon { 
+      width: 80px; 
+      height: auto;
+      max-width: 100%;
+    }
+    .partie { 
+      width: 55px; 
+      padding: 0%; 
+      height: auto;
+      max-width: 100%;
+    }
+    .card-horizontal { 
+      display: flex; 
+      align-items: center; 
+      flex-wrap: wrap;
+    }
+    .card-horizontal .icon { 
+      margin-right: 1rem; 
+      flex-shrink: 0;
+    }
     .list-group-item.servo {
       background-color: #1E3459;
       border: 1px solid #496791;
       color: white;
     }
-    .badge { font-size: 0.85em; padding: 0.4em 0.7em; }
-    @media (max-width: 768px) {
-      .card-horizontal { flex-direction: column; text-align: center; }
-      .card-horizontal .icon { margin: 0 auto 1rem; }
+    .badge { 
+      font-size: 0.85em; 
+      padding: 0.4em 0.7em; 
+      text-align: left;
+      word-break: break-word;
+      white-space: normal;
+      flex: 1;
     }
-    .card-horizontal:hover { background-color: #0686c7; }
+    @media (max-width: 768px) {
+      .card-horizontal { 
+        flex-direction: row; 
+        text-align: left; 
+      }
+      .card-horizontal .icon { 
+        margin: 0 1rem 0 0; 
+        width: 60px;
+      }
+    }
+    .card-horizontal:hover { 
+      background-color: #0686c7; 
+    }
 
     .list-group-item.etapes {
       background-color: #1E3459;
@@ -55,19 +116,19 @@
       white-space: normal;     
       word-wrap: break-word;    
       text-align: left;        
+      display: flex;
+      align-items: center;
+      transition: all 0.2s ease;
     }
     .list-group-item.etapes:hover {
       background-color: #0686c7;
       color: white;
     }
-    .list-group-item.etapes .badge {
-      white-space: normal;
-      max-width: 80%;         
-      text-align: left;
-    }
 
-    .row { height: 90vh; }
-    .container-fluid { min-height: 100vh; }
+    .container-fluid { 
+      padding: 0;
+      margin: 0;
+    }
     .servo.selected {
       border-left: 5px solid #ffffff;
       background-color: #124a70;
@@ -80,7 +141,7 @@
       background-color: #1E3459;
       color: white;
       overflow-y: auto;
-      max-height: 32vh;
+      max-height: 40vh;
       transition: all 0.3s ease;
     }
     .footer-logo {
@@ -97,14 +158,84 @@
       opacity: 0.9;
     }
     @media (max-width: 500px) {
-      .footer-logo { display: none; }
+      .footer-logo { 
+        display: none; 
+      }
+    }
+    
+    /* Améliorations pour le responsive */
+    .video-container {
+      margin-top: 1rem;
+      width: 100%;
+    }
+    
+    .step-badge-container {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    
+    .step-number {
+      flex-shrink: 0;
+      margin-right: 0.5rem;
+    }
+    
+    .card-content {
+      flex: 1;
+      min-width: 0; /* Permet au texte de bien s'adapter */
+    }
+    
+    @media (max-width: 576px) {
+      .left-half {
+        min-height: auto;
+        max-height: none;
+      }
+      
+      .icon {
+        width: 60px;
+      }
+      
+      .card-horizontal {
+        padding: 0.5rem;
+      }
+      
+      .card-title {
+        font-size: 1rem;
+      }
+      
+      .card-text {
+        font-size: 0.9rem;
+      }
+      
+      .step-card {
+        max-height: 35vh;
+      }
+      
+      .badge {
+        font-size: 0.8rem;
+      }
+    }
+    
+    /* Pour les très petits écrans */
+    @media (max-width: 360px) {
+      .icon {
+        width: 50px;
+      }
+      
+      .partie {
+        width: 40px;
+      }
+      
+      .card-horizontal .icon {
+        margin-right: 0.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container-fluid m-3">
-    <div class="row">
-      <div class="col-12 col-md-6 left-half d-flex flex-column">
+  <div class="container-fluid m-0 p-2 p-md-3">
+    <div class="row g-0 g-md-3">
+      <div class="col-12 col-md-6 left-half">
         <p class="top-label">Les Modes Opératoires</p>
         <div class="dropdown mt-3 w-100">
           <button id="dropdownButton" class="btn custom-dropdown-btn dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -117,26 +248,27 @@
             <li><a class="dropdown-item" href="#">L-RANGE</a></li>
           </ul>
         </div>
-        <div id="card-container"></div>
+        <div id="card-container" class="mt-3"></div>
       </div>
       <div class="col-12 col-md-6">
-        <div class="container mt-2" id="fullscreen-container">
-          <div class="ratio ratio-16x9">
-            <video id="video-player" controls>
+        <div class="container mt-2 mt-md-0 p-0 p-md-2" id="fullscreen-container">
+          <div class="ratio ratio-16x9 video-container">
+            <video id="video-player" controls class="w-100">
               <source id="video-source" src="" type="video/mp4">
               Votre navigateur ne supporte pas la balise vidéo.
             </video>
           </div>
-          <div class="card m-3 step-card">
-            <div class="card-body">
-              <div class="d-flex align-items-center justify-content-between mb-3">
-                <h5 class="card-title mb-0">
-                  <img class="icon" src="HMTL_JS/icons/footstep.png" alt="Étapes">
-                  Les Étapes de Réalisations
+          <div class="card m-1 m-md-3 step-card">
+            <div class="card-body p-2 p-md-3">
+              <div class="d-flex align-items-center justify-content-between mb-2 mb-md-3">
+                <h5 class="card-title mb-0 d-flex align-items-center">
+                  <img class="icon me-2" src="HMTL_JS/icons/footstep.png" alt="Étapes">
+                  <span class="d-none d-md-inline">Les Étapes de Réalisations</span>
+                  <span class="d-md-none">Étapes</span>
                 </h5>
                 <button id="fullscreen-btn" class="btn btn-outline-light btn-sm ms-3">Plein écran</button>
               </div>
-              <div class="list-group" id="etapes-container"></div>
+              <div class="list-group list-group-flush" id="etapes-container"></div>
             </div>
           </div>
         </div>
@@ -179,10 +311,10 @@
       container.innerHTML = "";
       data[range]?.forEach((card, index) => {
         const cardHTML = `
-          <div class="card m-3 servo" data-index="${index}" data-range="${range}">
-            <div class="card-body card-horizontal">
+          <div class="card m-2 m-md-3 servo" data-index="${index}" data-range="${range}">
+            <div class="card-body card-horizontal p-2">
               <img class="icon" src="${card.img}" alt="${card.title}">
-              <div>
+              <div class="card-content">
                 <h5 class="card-title m-1">${card.title}</h5>
                 <p class="card-text mb-0">${card.text}</p>
               </div>
@@ -209,10 +341,12 @@
           etapesContainer.innerHTML = "";
           item.steps.forEach((step, idx) => {
             const stepElement = document.createElement("div");
-            stepElement.className = "list-group-item etapes d-flex justify-content-between align-items-center py-2 mb-2";
+            stepElement.className = "list-group-item etapes d-flex justify-content-start align-items-center py-2 mb-2";
             stepElement.innerHTML = `
-              <span><img class="partie" src="HMTL_JS/icons/${idx + 1}.png"></span>
-              <span class="badge">${step.label}</span>
+              <div class="step-badge-container">
+                <span class="step-number"><img class="partie" src="HMTL_JS/icons/${idx + 1}.png" alt="Étape ${idx + 1}"></span>
+                <span class="badge bg-none">${step.label}</span>
+              </div>
             `;
             stepElement.addEventListener("click", () => {
               document.querySelectorAll(".etapes").forEach(el => el.classList.remove("active-step"));
@@ -274,7 +408,8 @@
     videoPlayer.addEventListener('play', toggleStepCardFullscreen);
     document.addEventListener('fullscreenchange', toggleStepCardFullscreen);
 
-    toggleStepCardFullscreen();
+    // Initialiser avec la première option
+    updateCards("BT-RANGE");
   </script>
 
   <div class="footer-logo">
@@ -282,7 +417,3 @@
   </div>
 </body>
 </html>
-
-
-
-
