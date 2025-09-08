@@ -44,15 +44,26 @@
       .card-horizontal .icon { margin: 0 auto 1rem; }
     }
     .card-horizontal:hover { background-color: #0686c7; }
+
+    /* Correction pour que le texte des étapes ne dépasse pas */
     .etapes {
       background-color: #1E3459;
       color: white;
       cursor: pointer;
+      white-space: normal;      /* autorise le retour à la ligne */
+      word-wrap: break-word;    /* coupe les mots longs si besoin */
+      text-align: left;         /* aligne le texte correctement */
     }
     .etapes:hover {
       background-color: #0686c7;
       color: white;
     }
+    .etapes .badge {
+      white-space: normal;
+      max-width: 80%;           /* évite de déborder */
+      text-align: left;
+    }
+
     .row { height: 90vh; }
     .container-fluid { min-height: 100vh; }
     .servo.selected {
@@ -134,234 +145,23 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-   const data = {
-  "BT-RANGE": [
-    {
-      title: "BT6L",
-      text: "Remontage",
-      img: "HMTL_JS/img/bt/BT7-V.png",
-      video: "attente_v2.mp4",
-      steps: [
-        { label: "À définir", time: 5 },
-        { label: "À définir", time: 15 },
-        { label: "À définir", time: 30 }
+    const data = {
+      "BT-RANGE": [
+        { title: "BT6L", text: "Remontage", img: "HMTL_JS/img/bt/BT7-V.png", video: "attente_v2.mp4", steps: [ { label: "À définir", time: 5 }, { label: "À définir", time: 15 }, { label: "À définir", time: 30 } ] },
+        { title: "BT6", text: "Démontage", img: "HMTL_JS/img/bt/btlogic.png", video: "attente_v2.mp4", steps: [ { label: "À définir", time: 5 }, { label: "À définir", time: 15 }, { label: "À définir", time: 30 } ] }
+      ],
+      "ST-RANGE": [
+        { title: "ST14K3", text: "Démontage", img: "HMTL_JS/img/st/st14k3.jpg", video: "Demontage_ST14K3.mp4", steps: [ { label: "Préparation de démontage des éléments externes", time: 10 }, { label: "Déconnexion des composants internes", time: 134 }, { label: "Démontage mécanique du carter", time: 185 }, { label: "Retirer et rebuter la vis prise de mouvement et la clavette", time: 270 } ] },
+        { title: "ST14K3", text: "Remontage", img: "HMTL_JS/img/st/st14k3.jpg", video: "remontage_st14k3.mp4", steps: [ { label: "Assemblage des organes de transmission", time: 14 }, { label: "Remontage du carter et de l'étanchéité", time: 122 }, { label: "Remontage de la platine et des pignons", time: 210 }, { label: "Finalisation et verification", time: 350 } ] }
+      ],
+      "L-RANGE": [
+        { title: "100L", text: "Démontage", img: "HMTL_JS/img/L/100LL.png", video: "demontage_100l.mp4", steps: [ { label: "Démontage du servomoteur", time: 8 }, { label: "Démontage de l'ensemble compte-tours", time: 89 }, { label: "Démontage du palier", time: 180 }, { label: "Démontage du limiteur et des rondelles du limiteur", time: 332 } ] },
+        { title: "100L", text: "Remontage", img: "HMTL_JS/img/L/100LL.png", video: "remontage_100L.mp4", steps: [ { label: "Remontage de l'ensemble limiteur d'effort", time: 11 }, { label: "Remontage de l'ensemble compte-tours", time: 106 }, { label: "Remontage de l'ensemble roue tangente/vis sans fin", time: 162 }, { label: "Remontage du palier", time: 224 }, { label: "Repose de l'ensemble asservissement", time: 282 }, { label: "Repose de l'ensemble compte-tours", time: 332 }, { label: "ESSAIS DE DEBRAYAGE DU SERVOMOTEUR", time: 392 }, { label: "Repose du moteur", time: 408 } ] }
+      ],
+      "AQ-RANGE": [
+        { title: "AQ 3", text: "Démontage", img: "HMTL_JS/img/aq/aq3.png", video: "attente_v2.mp4", steps: [ { label: "À définir", time: 5 }, { label: "À définir", time: 20 } ] },
+        { title: "AQ 10", text: "Démontage", img: "HMTL_JS/img/aq/aq10.png", video: "attente_v2.mp4", steps: [ { label: "À définir", time: 5 }, { label: "À définir", time: 25 } ] }
       ]
-    },
-    {
-      title: "BT6",
-      text: "Démontage",
-      img: "HMTL_JS/img/bt/btlogic.png",
-      video: "attente_v2.mp4",
-      steps: [
-        { label: "À définir", time: 5 },
-        { label: "À définir", time: 15 },
-        { label: "À définir", time: 30 }
-      ]
-    }
-  ],
-  "ST-RANGE": [
-    {
-      title: "ST14K3",
-      text: "Démontage",
-      img: "HMTL_JS/img/st/st14k3.jpg",
-      video: "Demontage_ST14K3.mp4",
-      steps: [
-        { label: "Préparation de démontage des éléments externes", time: 10 },
-        { label: "Déconnexion des composants internes", time: 134 },
-        { label: "Démontage mécanique du carter", time: 185 },
-        { label: "Retirer et rebuter la vis prise de mouvement et la clavette", time: 270 }
-      ]
-    },
-    {
-      title: "ST14K3",
-      text: "Remontage",
-      img: "HMTL_JS/img/st/st14k3.jpg",
-      video: "remontage_st14k3.mp4",
-      steps: [
-        { label: "Assemblage des organes de transmission", time: 14 },
-        { label: "Remontage du carter et de l'étanchéité", time: 122 },
-        { label: "Remontage de la platine et des pignons", time: 210 },
-        { label: "Finalisation et verification", time: 350 }
-      ]
-    }
-  ],
-  "L-RANGE": [
-    {
-      title: "100L",
-      text: "Démontage",
-      img: "HMTL_JS/img/L/100LL.png",
-      video: "demontage_100l.mp4",
-      steps: [
-        { label: "Démontage du servomoteur", time: 8 },
-        { label: "Démontage de l'ensemble compte-tours", time: 89 },
-        { label: "Démontage du palier", time: 180 },
-        { label: "Démontage du limiteur et des rondelles du limiteur", time: 332 }
-      ]
-    },
-     {
-      title: "100L",
-      text: "Remontage",
-      img: "HMTL_JS/img/L/100LL.png",
-      video: "remontage_100L.mp4",
-      steps: [
-        { label: "Remontage de l'ensemble limiteur d'effort", time: 11 },
-        { label: "Remontage de l'ensemble compte-tours", time: 106 },
-        { label: "Remontage de l'ensemble roue tangente/vis sans fin", time: 162 },
-        { label: "Remontage du palier", time: 224 },
-        {label : "Repose de l'ensemble asservissement", time: 282 },
-        {label : "Repose de l'ensemble compte-tours", time: 332 },
-        {label : "ESSAIS DE DEBRAYAGE DU SERVOMOTEUR", time: 392},
-        {label : "Repose du moteur", time: 408}
-      ]
-    }
-  ],
-  "AQ-RANGE": [
-    {
-      title: "AQ 3",
-      text: "Démontage",
-      img: "HMTL_JS/img/aq/aq3.png",
-      video: "attente_v2.mp4",
-      steps: [
-        { label: "À définir", time: 5 },
-        { label: "À définir", time: 20 }
-      ]
-    },
-    {
-      title: "AQ 10",
-      text: "Démontage",
-      img: "HMTL_JS/img/aq/aq10.png",
-      video: "attente_v2.mp4",
-      steps: [
-        { label: "À définir", time: 5 },
-        { label: "À définir", time: 25 }
-      ]
-    }
-  ]
-};
+    };
 
-
-    const dropdownItems = document.querySelectorAll(".dropdown-item");
-    const dropdownButton = document.getElementById("dropdownButton");
-    const container = document.getElementById("card-container");
-    const etapesContainer = document.getElementById("etapes-container");
-    const videoPlayer = document.getElementById("video-player");
-    const videoSource = document.getElementById("video-source");
-    const fullscreenBtn = document.getElementById("fullscreen-btn");
-    const fullscreenContainer = document.getElementById("fullscreen-container");
-
-    function updateCards(range) {
-      container.innerHTML = "";
-      data[range]?.forEach((card, index) => {
-        const cardHTML = `
-          <div class="card m-3 servo" data-index="${index}" data-range="${range}">
-            <div class="card-body card-horizontal">
-              <img class="icon" src="${card.img}" alt="${card.title}">
-              <div>
-                <h5 class="card-title m-1">${card.title}</h5>
-                <p class="card-text mb-0">${card.text}</p>
-              </div>
-            </div>
-          </div>`;
-        container.insertAdjacentHTML("beforeend", cardHTML);
-      });
-      attachCardEvents(range);
-    }
-
-    function attachCardEvents(range) {
-      document.querySelectorAll(".servo").forEach(card => {
-        card.addEventListener("click", () => {
-          document.querySelectorAll(".servo").forEach(c => c.classList.remove("selected"));
-          card.classList.add("selected");
-
-          const index = card.getAttribute("data-index");
-          const item = data[range][index];
-
-          videoSource.src = item.video;
-          videoPlayer.load();
-          videoPlayer.play();
-
-          etapesContainer.innerHTML = "";
-          item.steps.forEach((step, idx) => {
-            const stepElement = document.createElement("div");
-            stepElement.className = "list-group-item etapes d-flex justify-content-between align-items-center py-2 mb-2";
-            stepElement.innerHTML = `
-              <span><img class="partie" src="HMTL_JS/icons/${idx + 1}.png"></span>
-              <span class="badge">${step.label}</span>
-            `;
-            stepElement.addEventListener("click", () => {
-              document.querySelectorAll(".etapes").forEach(el => el.classList.remove("active-step"));
-              stepElement.classList.add("active-step");
-              videoPlayer.currentTime = step.time;
-              videoPlayer.play();
-            });
-            etapesContainer.appendChild(stepElement);
-          });
-        });
-      });
-    }
-
-    dropdownItems.forEach(item => {
-      item.addEventListener("click", (e) => {
-        e.preventDefault();
-        const selected = item.textContent.trim();
-        dropdownButton.textContent = selected;
-        updateCards(selected);
-      });
-    });
-
-    fullscreenBtn.addEventListener("click", () => {
-      if (fullscreenContainer.requestFullscreen) {
-        fullscreenContainer.requestFullscreen();
-      } else if (fullscreenContainer.webkitRequestFullscreen) {
-        fullscreenContainer.webkitRequestFullscreen();
-      } else if (fullscreenContainer.mozRequestFullScreen) {
-        fullscreenContainer.mozRequestFullScreen();
-      } else if (fullscreenContainer.msRequestFullscreen) {
-        fullscreenContainer.msRequestFullscreen();
-      }
-    });
-
-    function isFullscreen() {
-      return document.fullscreenElement === fullscreenContainer
-        || document.webkitFullscreenElement === fullscreenContainer
-        || document.mozFullScreenElement === fullscreenContainer
-        || document.msFullscreenElement === fullscreenContainer;
-    }
-
-    function toggleStepCardFullscreen() {
-      const stepCard = document.querySelector('.step-card');
-      const paused = videoPlayer.paused;
-      if (isFullscreen() && paused) {
-        stepCard.style.position = 'absolute';
-        stepCard.style.bottom = '10px';
-        stepCard.style.left = '10px';
-        stepCard.style.right = '10px';
-        stepCard.style.maxHeight = '40vh';
-        stepCard.style.backgroundColor = 'rgba(30, 52, 89, 0.85)';
-        stepCard.style.zIndex = '9999';
-      } else {
-        stepCard.style = '';
-      }
-    }
-
-    videoPlayer.addEventListener('pause', toggleStepCardFullscreen);
-    videoPlayer.addEventListener('play', toggleStepCardFullscreen);
-    document.addEventListener('fullscreenchange', toggleStepCardFullscreen);
-
-    toggleStepCardFullscreen();
-  </script>
-
-  <div class="footer-logo">
-    <img src="HMTL_JS/icons/logo_bc.png" alt="Logo" />
-  </div>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
+   
