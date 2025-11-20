@@ -169,7 +169,6 @@
       }
     }
     
-    /* Améliorations pour le responsive */
     .video-container {
       margin-top: 1rem;
       width: 100%;
@@ -188,7 +187,7 @@
     
     .card-content {
       flex: 1;
-      min-width: 0; /* Permet au texte de bien s'adapter */
+      min-width: 0;
     }
     
     @media (max-width: 576px) {
@@ -222,7 +221,6 @@
       }
     }
     
-    /* Pour les très petits écrans */
     @media (max-width: 360px) {
       .icon {
         width: 50px;
@@ -237,7 +235,6 @@
       }
     }
     
-    /* Message d'instruction */
     .instruction-message {
       text-align: center;
       padding: 2rem;
@@ -245,7 +242,6 @@
       font-style: italic;
     }
     
-    /* Styles pour les étapes dans les cartes servomoteurs */
     .servo-steps-container {
       width: 100%;
       margin-top: 0.5rem;
@@ -309,7 +305,6 @@
       flex-shrink: 0;
     }
     
-    /* Bouton flèche */
     .toggle-steps-btn {
       background: none;
       border: none;
@@ -335,7 +330,6 @@
       width: 100%;
     }
     
-    /* Amélioration responsive pour les étapes */
     @media (max-width: 768px) {
       .servo-step-item {
         font-size: 0.7rem;
@@ -358,7 +352,6 @@
       }
     }
 
-    /* Panel des outils - AUSSI LARGE QUE "LES MODES OPÉRATOIRES" */
     .tools-panel {
       position: fixed;
       bottom: 20px;
@@ -491,14 +484,12 @@
           </div>
         </div>
 
-        <!-- Panel des outils -->
         <div id="tools-panel" class="tools-panel">
           <div class="tools-header">
             <h6 class="tools-title">Outils nécessaires</h6>
             <button id="close-tools-btn" class="close-tools-btn">×</button>
           </div>
           <ul class="tools-list" id="tools-list">
-            <!-- Les outils seront insérés ici dynamiquement -->
           </ul>
         </div>
       </div>
@@ -711,14 +702,11 @@
     }
 
     function showToolsForStep(tools, stepLabel) {
-      // Mettre à jour le titre du panel
       const toolsTitle = toolsPanel.querySelector('.tools-title');
       toolsTitle.textContent = `Outils pour: ${stepLabel}`;
       
-      // Vider la liste actuelle
       toolsList.innerHTML = '';
       
-      // Ajouter chaque outil à la liste
       tools.forEach(tool => {
         const toolItem = document.createElement('li');
         toolItem.className = 'tool-item';
@@ -729,7 +717,6 @@
         toolsList.appendChild(toolItem);
       });
       
-      // Afficher le panel
       toolsPanel.classList.add('show');
     }
 
@@ -804,7 +791,6 @@
             videoPlayer.currentTime = time;
             videoPlayer.play();
             
-            // Afficher les outils pour cette étape
             showToolsForStep(tools, stepLabel);
             
             updateRightPanelSelection(time);
@@ -848,7 +834,6 @@
           videoPlayer.currentTime = step.time;
           videoPlayer.play();
           
-          // Afficher aussi les outils quand on clique sur une étape du panneau de droite
           showToolsForStep(step.tools, step.label);
         });
         etapesContainer.appendChild(stepElement);
