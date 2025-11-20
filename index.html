@@ -152,7 +152,7 @@
       transform: translateX(-50%);
       z-index: 1000;
       text-align: center;
-      background-color: rgba(255, 255, 255, 0.3); /* Fond blanc à 30% d'opacité */
+      background-color: rgba(255, 255, 255, 0.3);
       padding: 8px 15px;
       border-radius: 8px;
     }
@@ -286,7 +286,6 @@
       display: inline-block;
       width: 20px;
       height: 20px;
-      background-color: #0686c7;
       border-radius: 50%;
       text-align: center;
       line-height: 20px;
@@ -454,7 +453,6 @@
     }
 
     function updateCards(range) {
-      // Supprimer le message d'instruction
       const instructionMessage = document.querySelector('.instruction-message');
       if (instructionMessage) {
         instructionMessage.remove();
@@ -501,35 +499,29 @@
         const stepsContainer = card.querySelector('.servo-steps-container');
         const stepItems = card.querySelectorAll('.servo-step-item');
         
-        // Gestion du bouton toggle
         toggleBtn.addEventListener('click', function(e) {
-          e.stopPropagation(); // Empêche le déclenchement du clic sur la carte
+          e.stopPropagation(); 
           stepsContainer.classList.toggle('show');
           this.classList.toggle('rotated');
         });
         
-        // Gestion du clic sur les étapes
         stepItems.forEach(stepItem => {
           stepItem.addEventListener('click', function(e) {
-            e.stopPropagation(); // Empêche le déclenchement du clic sur la carte
+            e.stopPropagation(); 
             
-            // Retirer la classe active de toutes les étapes de cette carte
             stepItems.forEach(item => item.classList.remove('active'));
-            // Ajouter la classe active à l'étape cliquée
             this.classList.add('active');
             
             const time = parseFloat(this.getAttribute('data-time'));
             videoPlayer.currentTime = time;
             videoPlayer.play();
             
-            // Mettre à jour également la sélection dans le panneau de droite
             updateRightPanelSelection(time);
           });
         });
         
-        // Gestion du clic sur la carte (sélection du servomoteur)
         card.addEventListener("click", (e) => {
-          // Ne pas déclencher si on clique sur le bouton toggle ou une étape
+
           if (e.target.closest('.toggle-steps-btn') || e.target.closest('.servo-step-item')) {
             return;
           }
@@ -633,3 +625,4 @@
   </div>
 </body>
 </html>
+
