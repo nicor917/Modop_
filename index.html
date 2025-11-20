@@ -358,17 +358,16 @@
       }
     }
 
-    /* Panel des outils - PLUS LARGE */
+    /* Panel des outils - AUSSI LARGE QUE "LES MODES OPÉRATOIRES" */
     .tools-panel {
       position: fixed;
       bottom: 20px;
-      left: 20px;
+      left: 1rem;
+      right: 1rem;
       background-color: #1E3459;
       border: 2px solid #0686c7;
       border-radius: 10px;
       padding: 20px;
-      width: 450px; /* Augmenté la largeur */
-      max-width: 90vw; /* Pour les petits écrans */
       z-index: 1000;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       display: none;
@@ -459,8 +458,6 @@
       .tools-panel {
         left: 10px;
         right: 10px;
-        width: auto;
-        max-width: none;
         bottom: 10px;
       }
       
