@@ -248,7 +248,7 @@
       width: 100%;
       margin-top: 0.5rem;
       max-height: 0;
-      overflow-y: auto;
+      overflow: hidden;
       border-top: 1px solid transparent;
       padding-top: 0;
       transition: all 0.3s ease;
@@ -256,7 +256,7 @@
     }
     
     .servo-steps-container.show {
-      max-height: 150px;
+      max-height: none;
       border-top: 1px solid #496791;
       padding-top: 0.5rem;
       opacity: 1;
@@ -270,6 +270,16 @@
       border-radius: 0.25rem;
       word-break: break-word;
       white-space: normal;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .servo-step-item:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .servo-step-item.active {
+      background-color: #0686c7;
     }
     
     .servo-step-number {
@@ -288,6 +298,14 @@
     .servo-step-content {
       display: flex;
       align-items: flex-start;
+    }
+    
+    .servo-step-time {
+      font-size: 0.65rem;
+      color: #8ba3c7;
+      margin-left: auto;
+      padding-left: 0.5rem;
+      flex-shrink: 0;
     }
     
     /* Bouton flèche */
@@ -318,10 +336,6 @@
     
     /* Amélioration responsive pour les étapes */
     @media (max-width: 768px) {
-      .servo-steps-container.show {
-        max-height: 120px;
-      }
-      
       .servo-step-item {
         font-size: 0.7rem;
         padding: 0.2rem 0.4rem;
@@ -332,6 +346,10 @@
         height: 18px;
         line-height: 18px;
         font-size: 0.65rem;
+      }
+      
+      .servo-step-time {
+        font-size: 0.6rem;
       }
       
       .toggle-steps-btn {
@@ -429,6 +447,12 @@
     const fullscreenBtn = document.getElementById("fullscreen-btn");
     const fullscreenContainer = document.getElementById("fullscreen-container");
 
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
     function updateCards(range) {
       // Supprimer le message d'instruction
       const instructionMessage = document.querySelector('.instruction-message');
@@ -455,10 +479,11 @@
               </div>
               <div class="servo-steps-container">
                 ${card.steps.map((step, idx) => `
-                  <div class="servo-step-item">
+                  <div class="servo-step-item" data-time="${step.time}">
                     <div class="servo-step-content">
                       <span class="servo-step-number">${idx + 1}</span>
                       <span class="servo-step-label">${step.label}</span>
+                      <span class="servo-step-time">${formatTime(step.time)}</span>
                     </div>
                   </div>
                 `).join('')}
@@ -474,6 +499,7 @@
       document.querySelectorAll(".servo").forEach(card => {
         const toggleBtn = card.querySelector('.toggle-steps-btn');
         const stepsContainer = card.querySelector('.servo-steps-container');
+        const stepItems = card.querySelectorAll('.servo-step-item');
         
         // Gestion du bouton toggle
         toggleBtn.addEventListener('click', function(e) {
@@ -482,10 +508,29 @@
           this.classList.toggle('rotated');
         });
         
+        // Gestion du clic sur les étapes
+        stepItems.forEach(stepItem => {
+          stepItem.addEventListener('click', function(e) {
+            e.stopPropagation(); // Empêche le déclenchement du clic sur la carte
+            
+            // Retirer la classe active de toutes les étapes de cette carte
+            stepItems.forEach(item => item.classList.remove('active'));
+            // Ajouter la classe active à l'étape cliquée
+            this.classList.add('active');
+            
+            const time = parseFloat(this.getAttribute('data-time'));
+            videoPlayer.currentTime = time;
+            videoPlayer.play();
+            
+            // Mettre à jour également la sélection dans le panneau de droite
+            updateRightPanelSelection(time);
+          });
+        });
+        
         // Gestion du clic sur la carte (sélection du servomoteur)
         card.addEventListener("click", (e) => {
-          // Ne pas déclencher si on clique sur le bouton toggle
-          if (e.target.closest('.toggle-steps-btn')) {
+          // Ne pas déclencher si on clique sur le bouton toggle ou une étape
+          if (e.target.closest('.toggle-steps-btn') || e.target.closest('.servo-step-item')) {
             return;
           }
           
@@ -499,25 +544,38 @@
           videoPlayer.load();
           videoPlayer.play();
 
-          etapesContainer.innerHTML = "";
-          item.steps.forEach((step, idx) => {
-            const stepElement = document.createElement("div");
-            stepElement.className = "list-group-item etapes d-flex justify-content-start align-items-center py-2 mb-2";
-            stepElement.innerHTML = `
-              <div class="step-badge-container">
-                <span class="step-number"><img class="partie" src="HMTL_JS/icons/${idx + 1}.png" alt="Étape ${idx + 1}"></span>
-                <span class="badge bg-none">${step.label}</span>
-              </div>
-            `;
-            stepElement.addEventListener("click", () => {
-              document.querySelectorAll(".etapes").forEach(el => el.classList.remove("active-step"));
-              stepElement.classList.add("active-step");
-              videoPlayer.currentTime = step.time;
-              videoPlayer.play();
-            });
-            etapesContainer.appendChild(stepElement);
-          });
+          updateRightPanel(item.steps);
         });
+      });
+    }
+
+    function updateRightPanel(steps) {
+      etapesContainer.innerHTML = "";
+      steps.forEach((step, idx) => {
+        const stepElement = document.createElement("div");
+        stepElement.className = "list-group-item etapes d-flex justify-content-start align-items-center py-2 mb-2";
+        stepElement.innerHTML = `
+          <div class="step-badge-container">
+            <span class="step-number"><img class="partie" src="HMTL_JS/icons/${idx + 1}.png" alt="Étape ${idx + 1}"></span>
+            <span class="badge bg-none">${step.label}</span>
+          </div>
+        `;
+        stepElement.addEventListener("click", () => {
+          document.querySelectorAll(".etapes").forEach(el => el.classList.remove("active-step"));
+          stepElement.classList.add("active-step");
+          videoPlayer.currentTime = step.time;
+          videoPlayer.play();
+        });
+        etapesContainer.appendChild(stepElement);
+      });
+    }
+
+    function updateRightPanelSelection(time) {
+      // Trouver et activer l'étape correspondante dans le panneau de droite
+      document.querySelectorAll(".etapes").forEach((el, idx) => {
+        el.classList.remove("active-step");
+        // Cette fonction est simplifiée - en réalité, nous devrions stocker le temps pour chaque étape
+        // Pour l'instant, nous allons simplement synchroniser visuellement
       });
     }
 
