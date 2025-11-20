@@ -61,6 +61,7 @@
       color: white;
       cursor: pointer;
       transition: all 0.2s ease;
+      position: relative;
     }
     .icon { 
       width: 80px; 
@@ -246,10 +247,19 @@
     .servo-steps-container {
       width: 100%;
       margin-top: 0.5rem;
-      max-height: 150px;
+      max-height: 0;
       overflow-y: auto;
+      border-top: 1px solid transparent;
+      padding-top: 0;
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+    
+    .servo-steps-container.show {
+      max-height: 150px;
       border-top: 1px solid #496791;
       padding-top: 0.5rem;
+      opacity: 1;
     }
     
     .servo-step-item {
@@ -280,9 +290,35 @@
       align-items: flex-start;
     }
     
+    /* Bouton flèche */
+    .toggle-steps-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      transition: transform 0.3s ease;
+      margin-left: auto;
+    }
+    
+    .toggle-steps-btn.rotated {
+      transform: rotate(180deg);
+    }
+    
+    .toggle-steps-btn:hover {
+      color: #cccccc;
+    }
+    
+    .card-header-content {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    
     /* Amélioration responsive pour les étapes */
     @media (max-width: 768px) {
-      .servo-steps-container {
+      .servo-steps-container.show {
         max-height: 120px;
       }
       
@@ -296,6 +332,10 @@
         height: 18px;
         line-height: 18px;
         font-size: 0.65rem;
+      }
+      
+      .toggle-steps-btn {
+        font-size: 1rem;
       }
     }
   </style>
@@ -400,22 +440,29 @@
       data[range]?.forEach((card, index) => {
         const cardHTML = `
           <div class="card m-2 m-md-3 servo" data-index="${index}" data-range="${range}">
-            <div class="card-body card-horizontal p-2">
-              <img class="icon" src="${card.img}" alt="${card.title}">
-              <div class="card-content">
-                <h5 class="card-title m-1">${card.title}</h5>
-                <p class="card-text mb-0">${card.text}</p>
-              </div>
-            </div>
-            <div class="servo-steps-container">
-              ${card.steps.map((step, idx) => `
-                <div class="servo-step-item">
-                  <div class="servo-step-content">
-                    <span class="servo-step-number">${idx + 1}</span>
-                    <span class="servo-step-label">${step.label}</span>
+            <div class="card-body p-2">
+              <div class="card-header-content">
+                <div class="d-flex align-items-center flex-grow-1">
+                  <img class="icon" src="${card.img}" alt="${card.title}">
+                  <div class="card-content ms-2">
+                    <h5 class="card-title m-1">${card.title}</h5>
+                    <p class="card-text mb-0">${card.text}</p>
                   </div>
                 </div>
-              `).join('')}
+                <button class="toggle-steps-btn" type="button">
+                  ▼
+                </button>
+              </div>
+              <div class="servo-steps-container">
+                ${card.steps.map((step, idx) => `
+                  <div class="servo-step-item">
+                    <div class="servo-step-content">
+                      <span class="servo-step-number">${idx + 1}</span>
+                      <span class="servo-step-label">${step.label}</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
             </div>
           </div>`;
         container.insertAdjacentHTML("beforeend", cardHTML);
@@ -425,7 +472,23 @@
 
     function attachCardEvents(range) {
       document.querySelectorAll(".servo").forEach(card => {
-        card.addEventListener("click", () => {
+        const toggleBtn = card.querySelector('.toggle-steps-btn');
+        const stepsContainer = card.querySelector('.servo-steps-container');
+        
+        // Gestion du bouton toggle
+        toggleBtn.addEventListener('click', function(e) {
+          e.stopPropagation(); // Empêche le déclenchement du clic sur la carte
+          stepsContainer.classList.toggle('show');
+          this.classList.toggle('rotated');
+        });
+        
+        // Gestion du clic sur la carte (sélection du servomoteur)
+        card.addEventListener("click", (e) => {
+          // Ne pas déclencher si on clique sur le bouton toggle
+          if (e.target.closest('.toggle-steps-btn')) {
+            return;
+          }
+          
           document.querySelectorAll(".servo").forEach(c => c.classList.remove("selected"));
           card.classList.add("selected");
 
