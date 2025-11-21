@@ -352,19 +352,19 @@
       }
     }
 
-    .tools-panel {
-      position: fixed;
-      bottom: 20px;
-      left: 1rem;
-      right: 1rem;
-      background-color: #1E3459;
-      border: 2px solid #0686c7;
-      border-radius: 10px;
-      padding: 20px;
-      z-index: 1000;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      display: none;
-    }
+.tools-panel {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  width: 50%;
+  background-color: #1E3459;
+  border: 2px solid #0686c7;
+  border-radius: 10px;
+  padding: 20px;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: none;
+}
     
     .tools-panel.show {
       display: block;
@@ -447,12 +447,13 @@
       color: #ffffff;
     }
     
-    @media (max-width: 768px) {
-      .tools-panel {
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
-      }
+@media (max-width: 767.98px) {
+  .tools-panel {
+    left: 10px;
+    right: 10px;
+    width: auto;
+    bottom: 10px;
+  }
       
       .tools-list {
         grid-template-columns: 1fr;
@@ -902,3 +903,4 @@
   </div>
 </body>
 </html>
+
