@@ -31,12 +31,19 @@
       overflow-y: auto;
       position: relative;
     }
-     .top-label {
+    .top-label {
       margin: 0;
       padding: 8px 8px;
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
       color: #ffffff;
       font-weight: bold;
+    }
+    .title-icon {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
     }
     .custom-dropdown-btn { 
       background-color: #006fa5; 
@@ -106,6 +113,10 @@
       .card-horizontal .icon { 
         margin: 0 1rem 0 0; 
         width: 60px;
+      }
+      .title-icon {
+        width: 25px;
+        height: 25px;
       }
     }
     .card-horizontal:hover { 
@@ -218,6 +229,11 @@
       
       .badge {
         font-size: 0.8rem;
+      }
+      
+      .title-icon {
+        width: 20px;
+        height: 20px;
       }
     }
     
@@ -476,7 +492,11 @@
   <div class="container-fluid m-0 p-2 p-md-3">
     <div class="row g-0 g-md-3">
       <div class="col-12 col-md-6 left-half">
-        <p class="top-label">Les Modes Opératoires</p>
+        <!-- Icône ajoutée ici -->
+        <p class="top-label">
+          <img src="HMTL_JS/icons/your-icon.png" alt="Icon" class="title-icon">
+          Les Modes Opératoires
+        </p>
         <div class="dropdown mt-3 w-100">
           <button id="dropdownButton" class="btn custom-dropdown-btn dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             SÉLECTIONNEZ UNE GAMME
@@ -1307,13 +1327,3 @@
   </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
