@@ -1089,7 +1089,56 @@
           ] 
         }
       ],
-      "μcontacts RANGE": []
+      "μcontacts RANGE": [
+        {
+          title: "μcontacts",
+          text: "Démontage",
+          img: "attente.png",
+          video: "attente_v2.mp4",
+          steps: [
+            {
+              label: "Préparation du démontage",
+              time: 5,
+              tools: [
+                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" },
+                { name: "Pince fine", icon: "HMTL_JS/icons/tools/needle_pliers.png" }
+              ]
+            },
+            {
+              label: "Retrait des éléments de contact",
+              time: 20,
+              tools: [
+                { name: "Clé Allen", icon: "HMTL_JS/icons/tools/hex_key.png" },
+                { name: "Multimètre", icon: "HMTL_JS/icons/tools/multimeter.png" }
+              ]
+            }
+          ]
+        },
+        {
+          title: "μcontacts",
+          text: "Remontage",
+          img: "attente.png",
+          video: "attente_v2.mp4",
+          steps: [
+            {
+              label: "Préparation du remontage",
+              time: 5,
+              tools: [
+                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" },
+                { name: "Chiffon non pelucheux", icon: "HMTL_JS/icons/tools/cloth.png" }
+              ]
+            },
+            {
+              label: "Remise en place et vérification",
+              time: 25,
+              tools: [
+                { name: "Clé dynamométrique", icon: "HMTL_JS/icons/tools/torque_wrench.png" },
+                { name: "Multimètre", icon: "HMTL_JS/icons/tools/multimeter.png" }
+              ]
+            }
+          ]
+        }
+      ]
     };
 
     const dropdownItems = document.querySelectorAll(".dropdown-item");
