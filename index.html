@@ -1,1461 +1,711 @@
-﻿<!DOCTYPE html>
+# Code HTML complet commenté — Les Modes Opératoires
+
+```html
+<!DOCTYPE html>
 <html lang="fr">
 <head>
+
+  <!-- ========================= -->
+  <!-- MÉTADONNÉES DE LA PAGE -->
+  <!-- ========================= -->
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Les Modes Opératoires</title>
+
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style> 
+
+  <style>
+
+    /* ========================= */
+    /* STYLE GÉNÉRAL DE LA PAGE */
+    /* ========================= */
+
     body {
-      overflow-x: hidden; 
+      overflow-x: hidden;
+      background-color: #0b1730;
+      color: white;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
     }
-    html { 
-      font-size: 16px; 
+
+    html {
+      font-size: 16px;
     }
+
+    /* Taille responsive */
     @media (min-width: 768px) {
-      html { 
-        font-size: 20px; 
+      html {
+        font-size: 20px;
       }
     }
+
     @media (min-width: 1200px) {
-      html { 
-        font-size: 24px; 
+      html {
+        font-size: 24px;
       }
     }
+
+    /* ========================= */
+    /* COLONNE GAUCHE */
+    /* ========================= */
+
     .left-half {
       background-color: #001f48;
-      color: white;
       padding: 1rem;
-      min-height: 100%;
-      height: auto;
+      min-height: 100vh;
       overflow-y: auto;
-      position: relative;
     }
+
+    /* ========================= */
+    /* COLONNE DROITE */
+    /* ========================= */
+
     .right-half {
+      background-color: #102544;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      height: 100%;
     }
-     .top-label {
-      margin: 0;
-      padding: 8px 8px;
-      display: inline-block;
-      color: #ffffff;
+
+    /* Titre principal */
+    .top-label {
+      font-size: 1.3rem;
       font-weight: bold;
-    }
-    .custom-dropdown-btn { 
-      background-color: #006fa5; 
-      color: white; 
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .custom-dropdown-menu { 
-      background-color: #0686c7; 
-      color: white; 
-    }
-    .custom-dropdown-menu .dropdown-item { 
-      color: white; 
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .custom-dropdown-menu .dropdown-item:hover {
-      background-color: #006fa5;
-    }
-    .servo {
-      background-color: #1E3459;
       color: white;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      position: relative;
     }
-    .icon { 
-      width: 80px; 
-      height: auto;
-      max-width: 100%;
+
+    /* ========================= */
+    /* DROPDOWN */
+    /* ========================= */
+
+    .custom-dropdown-btn {
+      background-color: #006fa5;
+      color: white;
+      border: none;
+      width: 100%;
     }
-    .partie { 
-      width: 55px; 
-      padding: 0%; 
-      height: auto;
-      max-width: 100%;
+
+    .custom-dropdown-menu {
+      background-color: #0686c7;
+      width: 100%;
     }
-    .card-horizontal { 
-      display: flex; 
-      align-items: center; 
-      flex-wrap: wrap;
+
+    .custom-dropdown-menu .dropdown-item {
+      color: white;
     }
-    .card-horizontal .icon { 
-      margin-right: 1rem; 
-      flex-shrink: 0;
+
+    .custom-dropdown-menu .dropdown-item:hover {
+      background-color: #005b87;
     }
-    .list-group-item.servo {
+
+    /* ========================= */
+    /* CARTE SERVOMOTEUR */
+    /* ========================= */
+
+    .servo {
       background-color: #1E3459;
       border: 1px solid #496791;
       color: white;
+      cursor: pointer;
+      transition: 0.3s ease;
     }
-    .badge { 
-      font-size: 0.85em; 
-      padding: 0.4em 0.7em; 
-      text-align: left;
-      word-break: break-word;
-      white-space: normal;
-      flex: 1;
+
+    .servo:hover {
+      background-color: #0686c7;
     }
-    @media (max-width: 768px) {
-      .card-horizontal { 
-        flex-direction: row; 
-        text-align: left; 
-      }
-      .card-horizontal .icon { 
-        margin: 0 1rem 0 0; 
-        width: 60px;
-      }
+
+    /* Carte sélectionnée */
+    .servo.selected {
+      border-left: 5px solid white;
+      background-color: #021f44;
     }
-    .card-horizontal:hover { 
-      background-color: #0686c7; 
+
+    /* Image du servomoteur */
+    .icon {
+      width: 80px;
+      max-width: 100%;
+    }
+
+    /* Icône étape */
+    .partie {
+      width: 45px;
+    }
+
+    /* ========================= */
+    /* CARTE ÉTAPES */
+    /* ========================= */
+
+    .step-card {
+      background-color: #1E3459;
+      color: white;
+      margin: 1rem;
+      border-radius: 10px;
+      max-height: 40vh;
+      overflow-y: auto;
     }
 
     .list-group-item.etapes {
       background-color: #1E3459;
+      border: 1px solid #496791;
       color: white;
       cursor: pointer;
-      white-space: normal;     
-      word-wrap: break-word;    
-      text-align: left;        
-      display: flex;
-      align-items: center;
-      transition: all 0.2s ease;
-    }
-    .list-group-item.etapes:hover {
-      background-color: #0686c7;
-      color: white;
+      transition: 0.2s ease;
+      margin-bottom: 8px;
     }
 
-    .container-fluid { 
-      padding: 0;
-      margin: 0;
+    .list-group-item.etapes:hover {
+      background-color: #0686c7;
     }
-    .servo.selected {
-      border-left: 5px solid #ffffff;
-      background-color: #021f44;
-    }
+
+    /* Étape active */
     .etapes.active-step {
       background-color: #124a70;
-      border-left: 5px solid #ffffff;
+      border-left: 5px solid white;
     }
-    .step-card {
-      background-color: #1E3459;
-      color: white;
-      overflow-y: auto;
-      max-height: 40vh;
-      transition: all 0.3s ease;
-    }
-    @media (min-width: 768px) {
-      .equal-row {
-        align-items: stretch;
-      }
-      .step-card {
-        margin-bottom: 0;
-      }
-    }
-    .footer-logo {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      text-align: center;
-      background-color: rgba(255, 255, 255, 0.3);
-      padding: 8px 15px;
-      border-radius: 8px;
-    }
-    .footer-logo img {
-      max-height: 60px;
-      max-width: 30vw;
-      opacity: 0.9;
-    }
-    @media (max-width: 500px) {
-      .footer-logo { 
-        display: none; 
-      }
-    }
-    
-    .video-container {
-      margin-top: 1rem;
-      width: 100%;
-    }
-    
-    .step-badge-container {
-      display: flex;
-      align-items: center;
-      width: 100%;
-    }
-    
-    .step-number {
-      flex-shrink: 0;
-      margin-right: 0.5rem;
-    }
-    
-    .card-content {
-      flex: 1;
-      min-width: 0;
-    }
-    
-    @media (max-width: 576px) {
-      .left-half {
-        min-height: auto;
-        max-height: none;
-      }
-      
-      .icon {
-        width: 60px;
-      }
-      
-      .card-horizontal {
-        padding: 0.5rem;
-      }
-      
-      .card-title {
-        font-size: 1rem;
-      }
-      
-      .card-text {
-        font-size: 0.9rem;
-      }
-      
-      .step-card {
-        max-height: 35vh;
-      }
-      
-      .badge {
-        font-size: 0.8rem;
-      }
-    }
-    
-    @media (max-width: 360px) {
-      .icon {
-        width: 50px;
-      }
-      
-      .partie {
-        width: 40px;
-      }
-      
-      .card-horizontal .icon {
-        margin-right: 0.5rem;
-      }
-    }
-    
+
+    /* Message affiché avant sélection */
     .instruction-message {
       text-align: center;
       padding: 2rem;
       color: #8ba3c7;
       font-style: italic;
     }
-    
+
+    /* ========================= */
+    /* ÉTAPES DANS LA CARTE */
+    /* ========================= */
+
     .servo-steps-container {
-      width: 100%;
-      margin-top: 0.5rem;
       max-height: 0;
       overflow: hidden;
-      border-top: 1px solid transparent;
-      padding-top: 0;
-      transition: all 0.3s ease;
       opacity: 0;
+      transition: all 0.3s ease;
     }
-    
+
+    /* Affichage des étapes */
     .servo-steps-container.show {
-      max-height: none;
-      border-top: 1px solid #496791;
-      padding-top: 0.5rem;
+      max-height: 500px;
       opacity: 1;
     }
-    
+
     .servo-step-item {
-      font-size: 0.75rem;
-      padding: 0.25rem 0.5rem;
-      margin-bottom: 0.25rem;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 0.25rem;
-      word-break: break-word;
-      white-space: normal;
+      background-color: rgba(255,255,255,0.1);
+      padding: 0.5rem;
+      border-radius: 5px;
+      margin-bottom: 0.3rem;
       cursor: pointer;
-      transition: all 0.2s ease;
     }
-    
+
     .servo-step-item:hover {
-      background-color: rgba(255, 255, 255, 0.2);
+      background-color: rgba(255,255,255,0.2);
     }
-    
-    .servo-step-item.active {
-      background-color: #0686c7;
-    }
-    
-    .servo-step-number {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 20px;
-      margin-right: 0.5rem;
-      font-size: 0.7rem;
-      flex-shrink: 0;
-    }
-    
-    .servo-step-content {
-      display: flex;
-      align-items: flex-start;
-    }
-    
-    .servo-step-time {
-      font-size: 0.65rem;
-      color: #8ba3c7;
-      margin-left: auto;
-      padding-left: 0.5rem;
-      flex-shrink: 0;
-    }
-    
+
+    /* Bouton ouvrir/fermer étapes */
     .toggle-steps-btn {
       background: none;
       border: none;
       color: white;
       font-size: 1.2rem;
       cursor: pointer;
-      padding: 0.25rem 0.5rem;
-      transition: transform 0.3s ease;
-      margin-left: auto;
     }
-    
-    .toggle-steps-btn.rotated {
-      transform: rotate(180deg);
+
+    /* ========================= */
+    /* VIDÉO */
+    /* ========================= */
+
+    .video-container {
+      padding: 1rem;
     }
-    
-    .toggle-steps-btn:hover {
-      color: #cccccc;
+
+    /* ========================= */
+    /* LOGO BAS DE PAGE */
+    /* ========================= */
+
+    .footer-logo {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(255,255,255,0.2);
+      padding: 10px;
+      border-radius: 10px;
+      z-index: 1000;
     }
-    
-    .card-header-content {
-      display: flex;
-      align-items: center;
-      width: 100%;
+
+    .footer-logo img {
+      max-height: 60px;
     }
-    
-    @media (max-width: 768px) {
-      .servo-step-item {
-        font-size: 0.7rem;
-        padding: 0.2rem 0.4rem;
-      }
-      
-      .servo-step-number {
-        width: 18px;
-        height: 18px;
-        line-height: 18px;
-        font-size: 0.65rem;
-      }
-      
-      .servo-step-time {
-        font-size: 0.6rem;
-      }
-      
-      .toggle-steps-btn {
-        font-size: 1rem;
-      }
-    }
+
+    /* ========================= */
+    /* PANEL OUTILS */
+    /* ========================= */
 
     .tools-panel {
       position: fixed;
       bottom: 20px;
-      left: 0;
-      width: 50%;
+      left: 20px;
+      width: 45%;
       background-color: #1E3459;
       border: 2px solid #0686c7;
       border-radius: 10px;
       padding: 20px;
       z-index: 1000;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       display: none;
-      margin: 0 1rem;
-      box-sizing: border-box;
     }
-    
+
+    /* Affichage panel outils */
     .tools-panel.show {
       display: block;
-      animation: slideInUp 0.3s ease;
     }
-    
-    @keyframes slideInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .tools-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #496791;
-    }
-    
-    .tools-title {
-      font-weight: bold;
-      color: #ffffff;
-      margin: 0;
-      font-size: 1.1rem;
-    }
-    
-    .close-tools-btn {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
+
     .tools-list {
-      list-style-type: none;
+      list-style: none;
       padding: 0;
-      margin: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 10px;
     }
-    
+
     .tool-item {
+      background-color: rgba(255,255,255,0.1);
       padding: 10px;
-      background-color: rgba(255, 255, 255, 0.1);
       border-radius: 5px;
       display: flex;
       align-items: center;
     }
-    
-    .tool-icon {
-      width: 28px;
-      height: 28px;
-      margin-right: 12px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-      flex-shrink: 0;
-      overflow: hidden;
-      padding:3px;
-    }
-    
+
     .tool-icon-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
+      margin-right: 10px;
     }
-    
-    .tool-name {
-      font-size: 0.95rem;
-      color: #ffffff;
-    }
-    
-    @media (max-width: 768px) {
-      .tools-panel {
-        left: 10px;
-        right: 10px;
-        width: auto;
-        bottom: 10px;
-        margin: 0;
-      }
-      
-      .tools-list {
-        grid-template-columns: 1fr;
-      }
-    }
+
   </style>
 </head>
+
 <body>
-  <div class="container-fluid m-0 p-2 p-md-3">
-    <div class="row g-0 g-md-3 equal-row">
-      <div class="col-12 col-md-6 left-half">
-        <p class="top-label">Les Modes Opératoires</p>
-        <div class="dropdown mt-3 w-100">
-          <button id="dropdownButton" class="btn custom-dropdown-btn dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            SÉLECTIONNEZ UNE GAMME
-          </button>
-          <ul class="dropdown-menu custom-dropdown-menu w-100">
-            <li><a class="dropdown-item" href="#">BT-RANGE</a></li>
-            <li><a class="dropdown-item" href="#">ST-RANGE</a></li>
-            <li><a class="dropdown-item" href="#">AQ-RANGE</a></li>
-            <li><a class="dropdown-item" href="#">L-RANGE</a></li>
-            <li><a class="dropdown-item" href="#">SN-RANGE</a></li>
-            <li><a class="dropdown-item" href="#">DR-RANGE</a></li>
-            <li><a class="dropdown-item" href="#">μCONTACTS-RANGE</a></li>
-          </ul>
-        </div>
-        <div id="card-container" class="mt-3">
-          <div class="instruction-message">
-            Veuillez sélectionner une gamme pour afficher les servomoteurs disponibles.
-          </div>
+
+<!-- ========================= -->
+<!-- CONTENEUR PRINCIPAL -->
+<!-- ========================= -->
+
+<div class="container-fluid p-2">
+
+  <div class="row g-3">
+
+    <!-- ========================= -->
+    <!-- PARTIE GAUCHE -->
+    <!-- ========================= -->
+
+    <div class="col-12 col-md-6 left-half">
+
+      <!-- Titre -->
+      <p class="top-label">Les Modes Opératoires</p>
+
+      <!-- ========================= -->
+      <!-- MENU DÉROULANT -->
+      <!-- ========================= -->
+
+      <div class="dropdown mt-3">
+
+        <button id="dropdownButton"
+                class="btn custom-dropdown-btn dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown">
+          SÉLECTIONNEZ UNE GAMME
+        </button>
+
+        <!-- Liste des gammes -->
+        <ul class="dropdown-menu custom-dropdown-menu">
+          <li><a class="dropdown-item" href="#">BT-RANGE</a></li>
+          <li><a class="dropdown-item" href="#">ST-RANGE</a></li>
+          <li><a class="dropdown-item" href="#">AQ-RANGE</a></li>
+          <li><a class="dropdown-item" href="#">L-RANGE</a></li>
+        </ul>
+
+      </div>
+
+      <!-- ========================= -->
+      <!-- CARTES SERVOMOTEURS -->
+      <!-- ========================= -->
+
+      <div id="card-container" class="mt-3">
+
+        <!-- Message par défaut -->
+        <div class="instruction-message">
+          Veuillez sélectionner une gamme.
         </div>
 
-        <div id="tools-panel" class="tools-panel">
-          <div class="tools-header">
-            <h6 class="tools-title">Outils nécessaires</h6>
-            <button id="close-tools-btn" class="close-tools-btn">×</button>
-          </div>
-          <ul class="tools-list" id="tools-list">
-          </ul>
-        </div>
       </div>
-      <div class="col-12 col-md-6 right-half">
-        <div class="container mt-2 mt-md-0 p-0 p-md-2 d-flex flex-column h-100" id="fullscreen-container">
-          <div class="ratio ratio-16x9 video-container">
-            <video id="video-player" controls class="w-100">
-              <source id="video-source" src="" type="video/mp4">
-              Votre navigateur ne supporte pas la balise vidéo.
-            </video>
-          </div>
-          <div class="card m-1 m-md-3 step-card">
-            <div class="card-body p-2 p-md-3">
-              <div class="d-flex align-items-center justify-content-between mb-2 mb-md-3">
-                <h5 class="card-title mb-0 d-flex align-items-center">
-                  <img class="icon me-2" src="HMTL_JS/icons/footstep.png" alt="Étapes">
-                  <span class="d-none d-md-inline">Les Étapes de Réalisations</span>
-                  <span class="d-md-none">Étapes</span>
-                </h5>
-                <button id="fullscreen-btn" class="btn btn-outline-light btn-sm ms-3">Plein écran</button>
-              </div>
-              <div class="list-group list-group-flush" id="etapes-container"></div>
-            </div>
-          </div>
+
+      <!-- ========================= -->
+      <!-- PANEL OUTILS -->
+      <!-- ========================= -->
+
+      <div id="tools-panel" class="tools-panel">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="m-0">Outils nécessaires</h5>
+          <button id="close-tools-btn" class="btn btn-danger btn-sm">X</button>
         </div>
+
+        <ul id="tools-list" class="tools-list"></ul>
+
       </div>
+
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script>
-    const data = {
-      "BT-RANGE": [
-        { 
-          title: "BT6L", 
-          text: "Remontage", 
-          img: "HMTL_JS/img/bt/BT7-V.png", 
-          video: "attente_v2.mp4", 
-          steps: [ 
-            { 
-              label: "À définir", 
-              time: 5, 
-              tools: [
-                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" },
-                { name: "Clé hexagonale 5mm", icon: "HMTL_JS/icons/tools/hex_key.png" },
-                { name: "Pince plate", icon: "HMTL_JS/icons/tools/pliers.png" }
-              ] 
-            }, 
-            { 
-              label: "À définir", 
-              time: 15, 
-              tools: [
-                { name: "Clé à molette", icon: "HMTL_JS/icons/tools/wrench.png" },
-                { name: "Tournevis plat", icon: "HMTL_JS/icons/tools/flat_screwdriver.png" },
-                { name: "Marteau", icon: "HMTL_JS/icons/tools/hammer.png" }
-              ] 
-            }, 
-            { 
-              label: "À définir", 
-              time: 30, 
-              tools: [
-                { name: "Clé dynamométrique", icon: "HMTL_JS/icons/tools/torque_wrench.png" },
-                { name: "Jauge d'épaisseur", icon: "HMTL_JS/icons/tools/feeler_gauge.png" },
-                { name: "Multimètre", icon: "HMTL_JS/icons/tools/multimeter.png" }
-              ] 
-            } 
-          ] 
-        },
-        { 
-          title: "BT6", 
-          text: "Démontage", 
-          img: "HMTL_JS/img/bt/btlogic.png", 
-          video: "attente_v2.mp4", 
-          steps: [ 
-            { 
-              label: "À définir", 
-              time: 5, 
-              tools: [
-                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" },
-                { name: "Pince multiprise", icon: "HMTL_JS/icons/tools/pliers.png" }
-              ] 
-            }, 
-            { 
-              label: "À définir", 
-              time: 15, 
-              tools: [
-                { name: "Clé Allen", icon: "HMTL_JS/icons/tools/hex_key.png" },
-                { name: "Tournevis plat", icon: "HMTL_JS/icons/tools/flat_screwdriver.png" }
-              ] 
-            }, 
-            { 
-              label: "À définir", 
-              time: 30, 
-              tools: [
-                { name: "Clé à douille", icon: "HMTL_JS/icons/tools/socket_wrench.png" },
-                { name: "Extracteur", icon: "HMTL_JS/icons/tools/puller.png" }
-              ] 
-            } 
-          ] 
-        }
-      ],
-      "ST-RANGE": [
-        { 
-          title: "ST14K3", 
-          text: "Démontage", 
-          img: "HMTL_JS/img/st/st14k3.jpg", 
-          video: "Demontage_ST14K3.mp4", 
-          steps: [ 
-            { 
-              label: "Préparation de démontage des éléments externes", 
-              time: 10, 
-              tools: [
-                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" },
-                { name: "Clé plate 10mm", icon: "HMTL_JS/icons/tools/wrench.png" },
-                { name: "Pince coupante", icon: "HMTL_JS/icons/tools/cutter_pliers.png" }
-              ] 
-            }, 
-            { 
-              label: "Déconnexion des composants internes", 
-              time: 134, 
-              tools: [
-                { name: "Multimètre", icon: "HMTL_JS/icons/tools/multimeter.png" },
-                { name: "Pince à dénuder", icon: "HMTL_JS/icons/tools/wire_stripper.png" },
-                { name: "Tournevis isolé", icon: "HMTL_JS/icons/tools/insulated_screwdriver.png" }
-              ] 
-            }, 
-            { 
-              label: "Démontage mécanique du carter", 
-              time: 185, 
-              tools: [
-                { name: "Clé à choc", icon: "HMTL_JS/icons/tools/impact_wrench.png" },
-                { name: "Clé dynamométrique", icon: "HMTL_JS/icons/tools/torque_wrench.png" },
-                { name: "Marteau en caoutchouc", icon: "HMTL_JS/icons/tools/rubber_hammer.png" }
-              ] 
-            }, 
-            { 
-              label: "Retirer et rebuter la vis prise de mouvement et la clavette", 
-              time: 270, 
-              tools: [
-                { name: "Extracteur de clavette", icon: "HMTL_JS/icons/tools/key_puller.png" },
-                { name: "Clé à ergot", icon: "HMTL_JS/icons/tools/spline_wrench.png" },
-                { name: "Tournevis plat", icon: "HMTL_JS/icons/tools/flat_screwdriver.png" }
-              ] 
-            } 
-          ] 
-        },
-        { 
-          title: "ST14K3", 
-          text: "Remontage", 
-          img: "HMTL_JS/img/st/st14k3.jpg", 
-          video: "remontage_st14k3.mp4", 
-          steps: [ 
-            { 
-              label: "Assemblage des organes de transmission", 
-              time: 14, 
-              tools: [
-                { name: "Clé dynamométrique", icon: "HMTL_JS/icons/tools/torque_wrench.png" },
-                { name: "Jauge de jeu", icon: "HMTL_JS/icons/tools/clearance_gauge.png" },
-                { name: "Graisse silicone", icon: "HMTL_JS/icons/tools/grease.png" }
-              ] 
-            }, 
-            { 
-              label: "Remontage du carter et de l'étanchéité", 
-              time: 122, 
-              tools: [
-                { name: "Joint torique", icon: "HMTL_JS/icons/tools/o_ring.png" },
-                { name: "Mastic d'étanchéité", icon: "HMTL_JS/icons/tools/sealant.png" },
-                { name: "Clé à cliquet", icon: "HMTL_JS/icons/tools/ratchet.png" }
-              ] 
-            }, 
-            { 
-              label: "Remontage de la platine et des pignons", 
-              time: 210, 
-              tools: [
-                { name: "Clé Allen", icon: "HMTL_JS/icons/tools/hex_key.png" },
-                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" },
-                { name: "Pince à circlips", icon: "HMTL_JS/icons/tools/circlip_pliers.png" }
-              ] 
-            }, 
-            { 
-              label: "Finalisation et verification", 
-              time: 350, 
-              tools: [
-                { name: "Multimètre", icon: "HMTL_JS/icons/tools/multimeter.png" },
-                { name: "Oscilloscope", icon: "HMTL_JS/icons/tools/oscilloscope.png" },
-                { name: "Clé de contrôle", icon: "HMTL_JS/icons/tools/test_key.png" }
-              ] 
-            } 
-          ] 
-        }
-      ],
-      "L-RANGE": [
-        { 
-          title: "100L", 
-          text: "Démontage", 
-          img: "HMTL_JS/img/L/100LL.png", 
-          video: "demontage_100l.mp4", 
-          steps: [ 
-            { 
-              label: "Démontage du servomoteur", 
-              time: 8, 
-              tools: [
-                { name: "Clé plate 13mm", icon: "HMTL_JS/icons/tools/wrench.png" },
-                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" },
-                { name: "Pince multiprise", icon: "HMTL_JS/icons/tools/pliers.png" }
-              ] 
-            }, 
-            { 
-              label: "Démontage de l'ensemble compte-tours", 
-              time: 89, 
-              tools: [
-                { name: "Clé Allen 4mm", icon: "HMTL_JS/icons/tools/hex_key.png" },
-                { name: "Pince fine", icon: "HMTL_JS/icons/tools/needle_pliers.png" },
-                { name: "Démultiplicateur", icon: "HMTL_JS/icons/tools/multiplier.png" }
-              ] 
-            }, 
-            { 
-              label: "Démontage du palier", 
-              time: 180, 
-              tools: [
-                { name: "Extracteur de roulement", icon: "HMTL_JS/icons/tools/bearing_puller.png" },
-                { name: "Marteau en laiton", icon: "HMTL_JS/icons/tools/brass_hammer.png" },
-                { name: "Chauffe-roulement", icon: "HMTL_JS/icons/tools/bearing_heater.png" }
-              ] 
-            }, 
-            { 
-              label: "Démontage du limiteur et des rondelles du limiteur", 
-              time: 332, 
-              tools: [
-                { name: "Clé à ergot", icon: "HMTL_JS/icons/tools/spline_wrench.png" },
-                { name: "Pince circlips", icon: "HMTL_JS/icons/tools/circlip_pliers.png" },
-                { name: "Jauge d'épaisseur", icon: "HMTL_JS/icons/tools/feeler_gauge.png" }
-              ] 
-            } 
-          ] 
-        },
-        { 
-          title: "100L", 
-          text: "Remontage", 
-          img: "HMTL_JS/img/L/100LL.png", 
-          video: "remontage_100L.mp4", 
-          steps: [ 
-            { 
-              label: "Remontage de l'ensemble limiteur d'effort", 
-              time: 11, 
-              tools: [
-                { name: "Clé dynamométrique", icon: "HMTL_JS/icons/tools/torque_wrench.png" },
-                { name: "Joint neoprène", icon: "HMTL_JS/icons/tools/seal.png" },
-                { name: "Graisse haute température", icon: "HMTL_JS/icons/tools/grease.png" }
-              ] 
-            }, 
-            { 
-              label: "Remontage de l'ensemble compte-tours", 
-              time: 106, 
-              tools: [
-                { name: "Multimètre", icon: "HMTL_JS/icons/tools/multimeter.png" },
-                { name: "Oscilloscope", icon: "HMTL_JS/icons/tools/oscilloscope.png" },
-                { name: "Tournevis de précision", icon: "HMTL_JS/icons/tools/precision_screwdriver.png" }
-              ] 
-            }, 
-            { 
-              label: "Remontage de l'ensemble roue tangente/vis sans fin", 
-              time: 162, 
-              tools: [
-                { name: "Calibre d'angle", icon: "HMTL_JS/icons/tools/angle_gauge.png" },
-                { name: "Clé à cliquet", icon: "HMTL_JS/icons/tools/ratchet.png" },
-                { name: "Pince à ressort", icon: "HMTL_JS/icons/tools/spring_pliers.png" }
-              ] 
-            }, 
-            { 
-              label: "Remontage du palier", 
-              time: 224, 
-              tools: [
-                { name: "Presse hydraulique", icon: "HMTL_JS/icons/tools/hydraulic_press.png" },
-                { name: "Chauffe-roulement", icon: "HMTL_JS/icons/tools/bearing_heater.png" },
-                { name: "Graisse au lithium", icon: "HMTL_JS/icons/tools/grease.png" }
-              ] 
-            }, 
-            { 
-              label: "Repose de l'ensemble asservissement", 
-              time: 282, 
-              tools: [
-                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" },
-                { name: "Clé plate 10mm", icon: "HMTL_JS/icons/tools/wrench.png" },
-                { name: "Pince coupante", icon: "HMTL_JS/icons/tools/cutter_pliers.png" }
-              ] 
-            }, 
-            { 
-              label: "Repose de l'ensemble compte-tours", 
-              time: 332, 
-              tools: [
-                { name: "Multimètre", icon: "HMTL_JS/icons/tools/multimeter.png" },
-                { name: "Règle de réglage", icon: "HMTL_JS/icons/tools/adjustment_rule.png" },
-                { name: "Clé dynamométrique", icon: "HMTL_JS/icons/tools/torque_wrench.png" }
-              ] 
-            }, 
-            { 
-              label: "ESSAIS DE DEBRAYAGE DU SERVOMOTEUR", 
-              time: 392, 
-              tools: [
-                { name: "Oscilloscope", icon: "HMTL_JS/icons/tools/oscilloscope.png" },
-                { name: "Générateur de signaux", icon: "HMTL_JS/icons/tools/signal_generator.png" },
-                { name: "Multimètre numérique", icon: "HMTL_JS/icons/tools/digital_multimeter.png" }
-              ] 
-            }, 
-            { 
-              label: "Repose du moteur", 
-              time: 408, 
-              tools: [
-                { name: "Clé à choc", icon: "HMTL_JS/icons/tools/impact_wrench.png" },
-                { name: "Clé plate 17mm", icon: "HMTL_JS/icons/tools/wrench.png" },
-                { name: "Tournevis plat", icon: "HMTL_JS/icons/tools/flat_screwdriver.png" }
-              ] 
-            } 
-          ] 
-        }
-      ],
-      "SN-RANGE": [
-        { 
-          title: "SN-14", 
-          text: "Démontage", 
-          img: "sn14.png", 
-          video: "demontage_sn14.mp4", 
-          steps: [ 
-            { 
-              label: "Dépose du moteur", 
-              time: 13, 
-              tools: [
-                { name: "Tournevis", icon: "HMTL_JS/tools/tournevis.png" },
-                { name: "Pince", icon: "HMTL_JS/tools/pince.png" }
-              ] 
-            }, 
-            { 
-              label: "Dépose des connecteurs", 
-              time: 75, 
-              tools: [
-                { name: "Tournevis", icon: "HMTL_JS/tools/tournevis.png" },
-                { name: "Clé Allen en T", icon: "HMTL_JS/tools/halen.png" }
-              ] 
-            }, 
-            { 
-              label: "Dépose du boîtier de commande", 
-              time: 112, 
-              tools: [
-                { name: "Clé Allen en T", icon: "HMTL_JS/tools/halen.png" }
-              ] 
-            }, 
-            { 
-              label: "Dépose du bornier", 
-              time: 151, 
-              tools: [
-                { name: "Pince", icon: "HMTL_JS/tools/pince.png" },
-                { name: "Clé Allen en T", icon: "HMTL_JS/tools/halen.png" }
-              ] 
-            }, 
-            { 
-              label: "Dépose de la ligne d'arbre", 
-              time: 201, 
-              tools: [
-                { name: "Tournevis", icon: "HMTL_JS/tools/tournevis.png" },
-                { name: "Pince", icon: "HMTL_JS/tools/pince.png" }
-              ] 
-            }, 
-            { 
-              label: "Dépose de la prise de mouvement", 
-              time: 293, 
-              tools: [
-                { name: "Clé Allen en T", icon: "HMTL_JS/tools/halen.png" },
-                { name: "Maillet", icon: "HMTL_JS/tools/maillet.png" }
-              ] 
-            }, 
-            { 
-              label: "Dépose de la vis sans fin", 
-              time: 353, 
-              tools: [
-                { name: "Clé Allen en T", icon: "HMTL_JS/tools/halen.png" },
-                { name: "Maillet", icon: "HMTL_JS/tools/maillet.png" }
-              ] 
-            }, 
-            { 
-              label: "Démontage de la ligne d'arbre", 
-              time: 381, 
-              tools: [
-                { name: "Pince", icon: "HMTL_JS/tools/pince.png" }
-              ] 
-            } 
-          ] 
-        },
-        { 
-          title: "SN-14", 
-          text: "Remontage", 
-          img: "sn14.png", 
-          video: "remontage_sn14.mp4", 
-          steps: [ 
-            { 
-              label: "Préparation de la ligne d'arbre", 
-              time: 13, 
-              tools: [
-                { name: "Pinceaux", icon: "HMTL_JS/icons/tools/pinceau.png" },
-                { name: "Chiffon non pelucheux", icon: "HMTL_JS/icons/tools/cloth.png" },
-                { name: "Graisse silicone", icon: "HMTL_JS/icons/tools/grease.png" }
-              ] 
-            }, 
-            { 
-              label: "Assemblage de la ligne d'arbre dans le carter", 
-              time: 125, 
-              tools: [
-                { name: "Presse hydraulique", icon: "HMTL_JS/icons/tools/hydraulic_press.png" },
-                { name: "Marteau en laiton", icon: "HMTL_JS/icons/tools/brass_hammer.png" },
-                { name: "Calibre d'alignement", icon: "HMTL_JS/icons/tools/alignment_gauge.png" }
-              ] 
-            }, 
-            { 
-              label: "Remontage des orgnanes périphéiques et graissage", 
-              time: 222, 
-              tools: [
-                { name: "Graisse haute température", icon: "HMTL_JS/icons/tools/grease.png" },
-                { name: "Pinceau", icon: "HMTL_JS/icons/tools/brush.png" },
-                { name: "Brosse de nettoyage", icon: "HMTL_JS/icons/tools/cleaning_brush.png" }
-              ] 
-            }, 
-            { 
-              label: "Fermeture et raccordement du moteur", 
-              time: 316, 
-              tools: [
-                { name: "Clé dynamométrique", icon: "HMTL_JS/icons/tools/torque_wrench.png" },
-                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" },
-                { name: "Multimètre", icon: "HMTL_JS/icons/tools/multimeter.png" }
-              ] 
-            }
-          ] 
-        }
-      ],
-      "AQ-RANGE": [
-        { 
-          title: "AQ 3", 
-          text: "Démontage", 
-          img: "HMTL_JS/img/aq/aq3.png", 
-          video: "attente_v2.mp4", 
-          steps: [ 
-            { 
-              label: "À définir", 
-              time: 5, 
-              tools: [
-                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" },
-                { name: "Clé plate 8mm", icon: "HMTL_JS/icons/tools/wrench.png" }
-              ] 
-            }, 
-            { 
-              label: "À définir", 
-              time: 20, 
-              tools: [
-                { name: "Pince multiprise", icon: "HMTL_JS/icons/tools/pliers.png" },
-                { name: "Tournevis plat", icon: "HMTL_JS/icons/tools/flat_screwdriver.png" }
-              ] 
-            } 
-          ] 
-        },
-        { 
-          title: "AQ 10", 
-          text: "Démontage", 
-          img: "HMTL_JS/img/aq/aq10.png", 
-          video: "attente_v2.mp4", 
-          steps: [ 
-            { 
-              label: "À définir", 
-              time: 5, 
-              tools: [
-                { name: "Clé Allen", icon: "HMTL_JS/icons/tools/hex_key.png" },
-                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" }
-              ] 
-            }, 
-            { 
-              label: "À définir", 
-              time: 25, 
-              tools: [
-                { name: "Clé à molette", icon: "HMTL_JS/icons/tools/wrench.png" },
-                { name: "Pince étau", icon: "HMTL_JS/icons/tools/vice_pliers.png" }
-              ] 
-            } 
-          ] 
-        }
-      ],
-      "DR-RANGE": [
-        { 
-          title: "DR5", 
-          text: "Démontage", 
-          img: "dr5.png", 
-          video: "demontage_dr5.mp4", 
-          steps: [ 
-            { 
-              label: "Démontage des éléments extérieurs", 
-              time: 12, 
-              tools: [
-                { name: "Tournevis cruciforme", icon: "HMTL_JS/icons/tools/screwdriver.png" },
-                { name: "Clé plate 12mm", icon: "HMTL_JS/icons/tools/wrench.png" },
-                { name: "Pince multiprise", icon: "HMTL_JS/icons/tools/pliers.png" }
-              ] 
-            }, 
-            { 
-              label: "Retrait des sous-ensembles principaux", 
-              time: 57, 
-              tools: [
-                { name: "Clé à cliquet", icon: "HMTL_JS/icons/tools/ratchet.png" },
-                { name: "Clé Allen", icon: "HMTL_JS/icons/tools/hex_key.png" },
-                { name: "Extracteur", icon: "HMTL_JS/icons/tools/puller.png" }
-              ] 
-            }, 
-            { 
-              label: "Démontage des pièces internes", 
-              time: 117, 
-              tools: [
-                { name: "Pince circlips", icon: "HMTL_JS/icons/tools/circlip_pliers.png" },
-                { name: "Marteau en caoutchouc", icon: "HMTL_JS/icons/tools/rubber_hammer.png" },
-                { name: "Tournevis plat", icon: "HMTL_JS/icons/tools/flat_screwdriver.png" }
-              ] 
-            }, 
-            { 
-              label: "Extraction finale et nettoyage", 
-              time: 207, 
-              tools: [
-                { name: "Nettoyant dégraissant", icon: "HMTL_JS/icons/tools/cleaner.png" },
-                { name: "Brosse métallique", icon: "HMTL_JS/icons/tools/wire_brush.png" },
-                { name: "Chiffon non pelucheux", icon: "HMTL_JS/icons/tools/cloth.png" }
-              ] 
-            } 
-          ] 
-        },
-        { 
-          title: "DR5", 
-          text: "Remontage", 
-          img: "dr5.png", 
-          video: "remontage_dr5.mp4", 
-          steps: [ 
-            { 
-              label: "Préparation et outils de base", 
-              time: 12, 
-              tools: [
-                { name: "Clé dynamométrique", icon: "HMTL_JS/icons/tools/torque_wrench.png" },
-                { name: "Jauge d'épaisseur", icon: "HMTL_JS/icons/tools/feeler_gauge.png" },
-                { name: "Graisse silicone", icon: "HMTL_JS/icons/tools/grease.png" }
-              ] 
-            }, 
-            { 
-              label: "Assemblage mécanique intermédiaire", 
-              time: 223, 
-              tools: [
-                { name: "Presse hydraulique", icon: "HMTL_JS/icons/tools/hydraulic_press.png" },
-                { name: "Marteau en laiton", icon: "HMTL_JS/icons/tools/brass_hammer.png" },
-                { name: "Calibre d'alignement", icon: "HMTL_JS/icons/tools/alignment_gauge.png" }
-              ] 
-            }, 
-            { 
-              label: "Contrôles et ajustements avancés", 
-              time: 523, 
-              tools: [
-                { name: "Multimètre", icon: "HMTL_JS/icons/tools/multimeter.png" },
-                { name: "Oscilloscope", icon: "HMTL_JS/icons/tools/oscilloscope.png" },
-                { name: "Règle de réglage", icon: "HMTL_JS/icons/tools/adjustment_rule.png" }
-              ] 
-            }, 
-            { 
-              label: "Vérifications finales et conformité", 
-              time: 780, 
-              tools: [
-                { name: "Thermomètre laser", icon: "HMTL_JS/icons/tools/laser_thermometer.png" },
-                { name: "Vibromètre", icon: "HMTL_JS/icons/tools/vibrometer.png" },
-                { name: "Caméra endoscopique", icon: "HMTL_JS/icons/tools/endoscope.png" }
-              ] 
-            } 
-          ] 
-        }
-      ],
-      "μCONTACTS-RANGE": [
-        {
-          title: "μcontacts R9",
-          text: "Démontage",
-          img: "attente.png",
-          video: "démontage compressé.mp4",
-          steps: [
-            {
-              label: "Préparation et accès",
-              time: 9,
-              tools: [
-                { name: "Tournevis plat", icon: "HMTL_JS/tools/tournevis plat.png" },
-                { name: "Clé plate de 13", icon: "HMTL_JS/tools/cle.png" },
-                { name: "Clé Allen en T de 5", icon: "HMTL_JS/tools/cle-allen.png" },
-                { name: "Clé plate de 10", icon: "HMTL_JS/tools/cle.png" }
-              ]
-            },
-            {
-              label: "Déconnexion électrique",
-              time: 73,
-              tools: [
-                { name: "Pince courbée", icon: "HMTL_JS/tools/pince-courbee-v2.png" },
-                { name: "Pince coupante", icon: "HMTL_JS/tools/pince-a-denuder.png" },
-                { name: "Clé Allen en T de 5", icon: "HMTL_JS/tools/cle-allen.png" }
-              ]
-            },
-            {
-              label: "Nettoyage avant dépose",
-              time: 162,
-              tools: [
-                { name: "Bombe à air comprimé", icon: "HMTL_JS/tools/bombe à air.png" }
-              ]
-            },
-            {
-              label: "Dépose des éléments mécaniques",
-              time: 183,
-              tools: [
-                { name: "Tournevis plat", icon: "HMTL_JS/tools/tournevis plat.png" },
-                { name: "Clé à pipe de 6", icon: "HMTL_JS/tools/clé-à-pipe.png" },
-                { name: "Marteau", icon: "HMTL_JS/tools/marteau.png" },
-                { name: "Pointeau", icon: "HMTL_JS/tools/pointeau.png" },
-                { name: "Clé plate de 17", icon: "HMTL_JS/tools/cle.png" },
-                { name: "Clé Allen en T de 6 ", icon: "HMTL_JS/tools/cle-allen.png" },
-                { name: "Clé Allen en T de 10", icon: "HMTL_JS/tools/cle-allen.png" }
-              ]
-            },
-            {
-              label: "Repérage avant dépose des micro-contacts",
-              time: 274,
-              tools: [
-                { name: "Clé Allen en T de 6 ", icon: "HMTL_JS/tools/cle-allen.png" }
-              ]
-            },
-            {
-              label: "Dépose des micro-contacts",
-              time: 324,
-              tools: [
-                { name: "Marqueur ", icon: "HMTL_JS/tools/marqueur.png" }
-              ]
-            },
-            {
-              label: "Opérations finales de démontage",
-              time: 391,
-              tools: [
-                { name: "Chiffon", icon: "HMTL_JS/tools/chiffon-en-microfibre.png" },
-                { name: "Dilluant", icon: "HMTL_JS/tools/dilluant.png" },
-                { name: "Stylo", icon: "HMTL_JS/tools/marqueur.png" },
-                { name: "Étiquette", icon: "HMTL_JS/tools/etiqueter.png" }
-              ]
-            }
-          ]
-        },
-        {
-          title: "μcontacts R9",
-          text: "Remontage",
-          img: "attente.png",
-          video: "remontage-compressé.mp4",
-          steps: [
-            {
-              label: "Recâblage des micro-contacts",
-              time: 8,
-              tools: [
-                { name: "Pince à dénuder", icon: "HMTL_JS/tools/princeasertir.png" },
-                { name: "Pince à sertir Klauke K2", icon: "HMTL_JS/tools/k2.png" },
-                { name: "Décapeur thermique (450°C)", icon: "HMTL_JS/tools/decap.png" },
-                { name: "Pince coupante", icon: "HMTL_JS/tools/pince-a-denuder.png" }
-              ]
-            },
-            {
-              label: "Préparation mécanique",
-              time: 179,
-              tools: [
-              { name: "Pas d'outil pour cette étape" }
-              ]
-            },
-            {
-              label: "Remontage des micro-contacts",
-              time: 227,
-              tools: [
-                { name: "Clé Allen en T de 6", icon: "HMTL_JS/tools/cle-allen.png" },
-                { name: "Loctite 243", icon: "HMTL_JS/tools/loctite 243.png" },
-                { name: "Clé à cliquet", icon: "HMTL_JS/tools/clé-a-cliquet.png" },
-                { name: "Clé de 17", icon: "HMTL_JS/tools/cle.png" },
-                { name: "Clé dynamométrique", icon: "HMTL_JS/tools/cle-dynamometrique.png" }
-              ]
-            },
-            {
-              label: "Passage et organisation des fils",
-              time: 455,
-              tools: [
-              { name: "Pince à sertir Klauke K2", icon: "HMTL_JS/tools/k2.png" },
-              { name: "Pince à dénuder", icon: "HMTL_JS/tools/princeasertir.png" },
-              { name: "Prolongateur D2", icon: "HMTL_JS/tools/prolong.png" }
-              ]
-            },
-            {
-              label: "Opérations finales de remontage",
-              time: 661,
-              tools: [
-              { name: "Clé de 5", icon: "HMTL_JS/tools/cle.png" },
-              { name: "Loctite 243", icon: "HMTL_JS/tools/loctite 243.png" },
-              { name: "Marqueur rouge PMUC", icon: "HMTL_JS/tools/marqueur.png" },
-              { name: "Graisse"},
-              { name: "Mégohmmètre", icon: "HMTL_JS/tools/mehgometre.png" }
-              ]
-            }
-          ]
-        }
-      ]
-    };
+    <!-- ========================= -->
+    <!-- PARTIE DROITE -->
+    <!-- ========================= -->
 
-    const dropdownItems = document.querySelectorAll(".dropdown-item");
-    const dropdownButton = document.getElementById("dropdownButton");
-    const container = document.getElementById("card-container");
-    const etapesContainer = document.getElementById("etapes-container");
-    const videoPlayer = document.getElementById("video-player");
-    const videoSource = document.getElementById("video-source");
-    const fullscreenBtn = document.getElementById("fullscreen-btn");
-    const fullscreenContainer = document.getElementById("fullscreen-container");
-    const toolsPanel = document.getElementById("tools-panel");
-    const toolsList = document.getElementById("tools-list");
-    const closeToolsBtn = document.getElementById("close-tools-btn");
+    <div class="col-12 col-md-6 right-half">
 
-    function formatTime(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${mins}:${secs.toString().padStart(2, '0')}`;
-    }
+      <div class="video-container">
 
-    function showToolsForStep(tools, stepLabel) {
-      const toolsTitle = toolsPanel.querySelector('.tools-title');
-      toolsTitle.textContent = `Outils pour: ${stepLabel}`;
-      
-      toolsList.innerHTML = '';
-      
-      tools.forEach(tool => {
-        const toolItem = document.createElement('li');
-        toolItem.className = 'tool-item';
-        
-        let iconHTML;
-        if (tool.icon) {
-          // Si l'outil a une icône personnalisée
-          iconHTML = `<div class="tool-icon"><img class="tool-icon-img" src="${tool.icon}" alt="${tool.name}"></div>`;
-        } else {
-          // Icône par défaut si aucune image n'est spécifiée
-          iconHTML = `<div class="tool-icon">🛠️</div>`;
-        }
-        
-        toolItem.innerHTML = `
-          ${iconHTML}
-          <span class="tool-name">${tool.name || tool}</span>
-        `;
-        toolsList.appendChild(toolItem);
-      });
-      
-      toolsPanel.classList.add('show');
-    }
+        <!-- Vidéo -->
+        <div class="ratio ratio-16x9">
+          <video id="video-player" controls>
+            <source id="video-source" src="" type="video/mp4">
+          </video>
+        </div>
 
-    function hideToolsPanel() {
-      toolsPanel.classList.remove('show');
-    }
+        <!-- ========================= -->
+        <!-- LISTE DES ÉTAPES -->
+        <!-- ========================= -->
 
-    function updateCards(range) {
-      const instructionMessage = document.querySelector('.instruction-message');
-      if (instructionMessage) {
-        instructionMessage.remove();
-      }
-      
-      container.innerHTML = "";
-      data[range]?.forEach((card, index) => {
-        const cardHTML = `
-          <div class="card m-2 m-md-3 servo" data-index="${index}" data-range="${range}">
-            <div class="card-body p-2">
-              <div class="card-header-content">
-                <div class="d-flex align-items-center flex-grow-1">
-                  <img class="icon" src="${card.img}" alt="${card.title}">
-                  <div class="card-content ms-2">
-                    <h5 class="card-title m-1">${card.title}</h5>
-                    <p class="card-text mb-0">${card.text}</p>
-                  </div>
-                </div>
-                <button class="toggle-steps-btn" type="button">
-                  ▼
-                </button>
-              </div>
-              <div class="servo-steps-container">
-                ${card.steps.map((step, idx) => `
-                  <div class="servo-step-item" data-time="${step.time}" data-tools='${JSON.stringify(step.tools)}' data-label="${step.label}">
-                    <div class="servo-step-content">
-                      <span class="servo-step-number">${idx + 1}</span>
-                      <span class="servo-step-label">${step.label}</span>
-                      <span class="servo-step-time">${formatTime(step.time)}</span>
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
+        <div class="step-card card mt-3">
+
+          <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5>Les étapes de réalisation</h5>
+
+              <!-- Bouton plein écran -->
+              <button id="fullscreen-btn"
+                      class="btn btn-outline-light btn-sm">
+                Plein écran
+              </button>
             </div>
-          </div>`;
-        container.insertAdjacentHTML("beforeend", cardHTML);
-      });
-      attachCardEvents(range);
-    }
-    function attachCardEvents(range) {
-      document.querySelectorAll(".servo").forEach(card => {
-        const toggleBtn = card.querySelector('.toggle-steps-btn');
-        const stepsContainer = card.querySelector('.servo-steps-container');
-        const stepItems = card.querySelectorAll('.servo-step-item');
-        
-        toggleBtn.addEventListener('click', function(e) {
-          e.stopPropagation(); 
-          stepsContainer.classList.toggle('show');
-          this.classList.toggle('rotated');
-        });
-        
-        stepItems.forEach(stepItem => {
-          stepItem.addEventListener('click', function(e) {
-            e.stopPropagation(); 
-            
-            stepItems.forEach(item => item.classList.remove('active'));
-            this.classList.add('active');
-            
-            const time = parseFloat(this.getAttribute('data-time'));
-            const tools = JSON.parse(this.getAttribute('data-tools'));
-            const stepLabel = this.getAttribute('data-label');
-            
-            videoPlayer.currentTime = time;
-            videoPlayer.play();
-            
-            showToolsForStep(tools, stepLabel);
-            
-            updateRightPanelSelection(time);
-          });
-        });
-        
-        card.addEventListener("click", (e) => {
-          if (e.target.closest('.toggle-steps-btn') || e.target.closest('.servo-step-item')) {
-            return;
-          }
-          
-          document.querySelectorAll(".servo").forEach(c => c.classList.remove("selected"));
-          card.classList.add("selected");
 
-          const index = card.getAttribute("data-index");
-          const item = data[range][index];
+            <!-- Conteneur des étapes -->
+            <div id="etapes-container" class="list-group"></div>
 
-          videoSource.src = item.video;
-          videoPlayer.load();
-          videoPlayer.play();
-
-          updateRightPanel(item.steps);
-        });
-      });
-    }
-
-    function updateRightPanel(steps) {
-      etapesContainer.innerHTML = "";
-      steps.forEach((step, idx) => {
-        const stepElement = document.createElement("div");
-        stepElement.className = "list-group-item etapes d-flex justify-content-start align-items-center py-2 mb-2";
-        stepElement.innerHTML = `
-          <div class="step-badge-container">
-            <span class="step-number"><img class="partie" src="HMTL_JS/icons/${idx + 1}.png" alt="Étape ${idx + 1}"></span>
-            <span class="badge bg-none">${step.label}</span>
           </div>
-        `;
-        stepElement.addEventListener("click", () => {
-          document.querySelectorAll(".etapes").forEach(el => el.classList.remove("active-step"));
-          stepElement.classList.add("active-step");
-          videoPlayer.currentTime = step.time;
-          videoPlayer.play();
-          
-          showToolsForStep(step.tools, step.label);
-        });
-        etapesContainer.appendChild(stepElement);
-      });
-    }
 
-    function updateRightPanelSelection(time) {
-      document.querySelectorAll(".etapes").forEach((el, idx) => {
-        el.classList.remove("active-step");
-      });
-    }
+        </div>
 
-    dropdownItems.forEach(item => {
-      item.addEventListener("click", (e) => {
-        e.preventDefault();
-        const selected = item.textContent.trim();
-        dropdownButton.textContent = selected;
-        updateCards(selected);
-      });
-    });
+      </div>
 
-    fullscreenBtn.addEventListener("click", () => {
-      if (fullscreenContainer.requestFullscreen) {
-        fullscreenContainer.requestFullscreen();
-      } else if (fullscreenContainer.webkitRequestFullscreen) {
-        fullscreenContainer.webkitRequestFullscreen();
-      } else if (fullscreenContainer.mozRequestFullScreen) {
-        fullscreenContainer.mozRequestFullScreen();
-      } else if (fullscreenContainer.msRequestFullscreen) {
-        fullscreenContainer.msRequestFullscreen();
-      }
-    });
+    </div>
 
-    closeToolsBtn.addEventListener("click", hideToolsPanel);
-
-    function isFullscreen() {
-      return document.fullscreenElement === fullscreenContainer
-        || document.webkitFullscreenElement === fullscreenContainer
-        || document.mozFullScreenElement === fullscreenContainer
-        || document.msFullscreenElement === fullscreenContainer;
-    }
-
-    function toggleStepCardFullscreen() {
-      const stepCard = document.querySelector('.step-card');
-      const paused = videoPlayer.paused;
-      if (isFullscreen() && paused) {
-        stepCard.style.position = 'absolute';
-        stepCard.style.bottom = '10px';
-        stepCard.style.left = '10px';
-        stepCard.style.right = '10px';
-        stepCard.style.maxHeight = '40vh';
-        stepCard.style.backgroundColor = 'rgba(30, 52, 89, 0.85)';
-        stepCard.style.zIndex = '9999';
-      } else {
-        stepCard.style = '';
-      }
-    }
-
-    videoPlayer.addEventListener('pause', toggleStepCardFullscreen);
-    videoPlayer.addEventListener('play', toggleStepCardFullscreen);
-    document.addEventListener('fullscreenchange', toggleStepCardFullscreen);
-  </script>
-
-  <div class="footer-logo">
-    <img src="HMTL_JS/icons/logo_bc.png" alt="Logo" />
   </div>
+</div>
+
+<!-- ========================= -->
+<!-- LOGO -->
+<!-- ========================= -->
+
+<div class="footer-logo">
+  <img src="HMTL_JS/icons/logo_bc.png" alt="Logo">
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+/* ========================= */
+/* DONNÉES DES SERVOMOTEURS */
+/* ========================= */
+
+const data = {
+
+  "BT-RANGE": [
+
+    {
+      title: "BT6L",
+      text: "Remontage",
+      img: "HMTL_JS/img/bt/BT7-V.png",
+      video: "attente_v2.mp4",
+
+      steps: [
+
+        {
+          label: "Préparation",
+          time: 5,
+
+          tools: [
+            {
+              name: "Tournevis cruciforme",
+              icon: "HMTL_JS/icons/tools/screwdriver.png"
+            }
+          ]
+        },
+
+        {
+          label: "Assemblage",
+          time: 15,
+
+          tools: [
+            {
+              name: "Clé Allen",
+              icon: "HMTL_JS/icons/tools/hex_key.png"
+            }
+          ]
+        }
+
+      ]
+    }
+  ]
+};
+
+/* ========================= */
+/* SÉLECTION DES ÉLÉMENTS HTML */
+/* ========================= */
+
+const dropdownItems = document.querySelectorAll('.dropdown-item');
+const dropdownButton = document.getElementById('dropdownButton');
+const container = document.getElementById('card-container');
+const etapesContainer = document.getElementById('etapes-container');
+const videoPlayer = document.getElementById('video-player');
+const videoSource = document.getElementById('video-source');
+const toolsPanel = document.getElementById('tools-panel');
+const toolsList = document.getElementById('tools-list');
+const closeToolsBtn = document.getElementById('close-tools-btn');
+const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+/* ========================= */
+/* FORMATAGE DU TEMPS */
+/* ========================= */
+
+function formatTime(seconds) {
+
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+/* ========================= */
+/* AFFICHAGE DES OUTILS */
+/* ========================= */
+
+function showToolsForStep(tools) {
+
+  toolsList.innerHTML = '';
+
+  tools.forEach(tool => {
+
+    const li = document.createElement('li');
+    li.className = 'tool-item';
+
+    li.innerHTML = `
+      <img class="tool-icon-img" src="${tool.icon}" alt="${tool.name}">
+      <span>${tool.name}</span>
+    `;
+
+    toolsList.appendChild(li);
+  });
+
+  toolsPanel.classList.add('show');
+}
+
+/* Fermeture panel outils */
+closeToolsBtn.addEventListener('click', () => {
+  toolsPanel.classList.remove('show');
+});
+
+/* ========================= */
+/* MISE À JOUR DES ÉTAPES */
+/* ========================= */
+
+function updateRightPanel(steps) {
+
+  etapesContainer.innerHTML = '';
+
+  steps.forEach((step, index) => {
+
+    const div = document.createElement('div');
+    div.className = 'list-group-item etapes';
+
+    div.innerHTML = `
+      <div class="d-flex align-items-center">
+
+        <img class="partie me-2"
+             src="HMTL_JS/icons/${index + 1}.png">
+
+        <div>
+          <strong>${step.label}</strong><br>
+          <small>${formatTime(step.time)}</small>
+        </div>
+
+      </div>
+    `;
+
+    /* Clic sur une étape */
+    div.addEventListener('click', () => {
+
+      document.querySelectorAll('.etapes').forEach(el => {
+        el.classList.remove('active-step');
+      });
+
+      div.classList.add('active-step');
+
+      /* Aller à la bonne seconde vidéo */
+      videoPlayer.currentTime = step.time;
+      videoPlayer.play();
+
+      /* Afficher les outils */
+      showToolsForStep(step.tools);
+    });
+
+    etapesContainer.appendChild(div);
+  });
+}
+
+/* ========================= */
+/* ÉVÉNEMENTS DES CARTES */
+/* ========================= */
+
+function attachCardEvents(range) {
+
+  document.querySelectorAll('.servo').forEach(card => {
+
+    const toggleBtn = card.querySelector('.toggle-steps-btn');
+    const stepsContainer = card.querySelector('.servo-steps-container');
+
+    /* Ouvrir/Fermer les étapes */
+    toggleBtn.addEventListener('click', (e) => {
+
+      e.stopPropagation();
+
+      stepsContainer.classList.toggle('show');
+    });
+
+    /* Sélection d'une carte */
+    card.addEventListener('click', () => {
+
+      document.querySelectorAll('.servo').forEach(c => {
+        c.classList.remove('selected');
+      });
+
+      card.classList.add('selected');
+
+      const index = card.getAttribute('data-index');
+      const item = data[range][index];
+
+      /* Chargement vidéo */
+      videoSource.src = item.video;
+
+      videoPlayer.load();
+      videoPlayer.play();
+
+      /* Mise à jour étapes */
+      updateRightPanel(item.steps);
+    });
+  });
+}
+
+/* ========================= */
+/* AFFICHAGE DES CARTES */
+/* ========================= */
+
+function updateCards(range) {
+
+  container.innerHTML = '';
+
+  data[range].forEach((card, index) => {
+
+    const cardHTML = `
+
+      <div class="card servo m-2"
+           data-index="${index}">
+
+        <div class="card-body">
+
+          <div class="d-flex justify-content-between align-items-center">
+
+            <div class="d-flex align-items-center">
+
+              <img class="icon me-3"
+                   src="${card.img}">
+
+              <div>
+                <h5>${card.title}</h5>
+                <p class="mb-0">${card.text}</p>
+              </div>
+
+            </div>
+
+            <button class="toggle-steps-btn">▼</button>
+
+          </div>
+
+          <!-- Étapes -->
+          <div class="servo-steps-container mt-3">
+
+            ${card.steps.map((step, idx) => `
+
+              <div class="servo-step-item">
+                ${idx + 1}. ${step.label}
+                <span class="float-end">${formatTime(step.time)}</span>
+              </div>
+
+            `).join('')}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+    container.insertAdjacentHTML('beforeend', cardHTML);
+  });
+
+  /* Activation événements */
+  attachCardEvents(range);
+}
+
+/* ========================= */
+/* MENU DÉROULANT */
+/* ========================= */
+
+dropdownItems.forEach(item => {
+
+  item.addEventListener('click', (e) => {
+
+    e.preventDefault();
+
+    const selected = item.textContent.trim();
+
+    dropdownButton.textContent = selected;
+
+    updateCards(selected);
+  });
+});
+
+/* ========================= */
+/* PLEIN ÉCRAN VIDÉO */
+/* ========================= */
+
+fullscreenBtn.addEventListener('click', () => {
+
+  const video = document.getElementById('video-player');
+
+  if (video.requestFullscreen) {
+    video.requestFullscreen();
+  }
+});
+
+</script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
+```
